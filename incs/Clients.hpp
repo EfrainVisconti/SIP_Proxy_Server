@@ -1,6 +1,7 @@
 #ifndef CLIENTS_HPP
 # define CLIENTS_HPP
 
+# define MAX_SIP_URI 256
 # define MAX_SIP_CLIENTS 10
 
 enum ClientStatus
@@ -15,7 +16,7 @@ enum ClientStatus
 typedef struct clients_s
 {
     struct sockaddr_in  addr;
-    char         info[128];
+    char         uri[MAX_SIP_URI];
     ClientStatus status;
 } clients_t;
 

@@ -23,6 +23,7 @@
 # include "../srcs/ServerManager.hpp"
 # include "../srcs/Socket.hpp"
 # include "../srcs/SIP.hpp"
+# include "../srcs/SIPMessage.hpp"
 
 # define SIP_PORT 5060
 # define RTP_PORT 4000
@@ -31,15 +32,17 @@
 # define MAX_UDP_SIZE 65535
 # define MAX_SIP_SIZE 1024
 
+
 // clients_utils.cpp
-bool       AddClient(clients_t *clients, const char *info, const struct sockaddr_in &client_addr, \
+bool       AddClient(clients_t *clients, const char *uri, const struct sockaddr_in &client_addr, \
             short *client_count, ClientStatus status);
-bool        RemoveClient(clients_t *clients, const char *info, short *client_count);
-clients_t*  FindClient(clients_t *clients, const char *info, short client_count);
+bool        RemoveClient(clients_t *clients, const char *uri, short *client_count);
+clients_t*  FindClient(clients_t *clients, const char *uri, short client_count);
 void        PrintClients(clients_t *clients, short client_count);
 
 // utils.cpp
 bool        IsEmptyBuffer(const char *buffer);
+void        RemoveBrackets(char *aux, const char *uri);
 
 
 #endif

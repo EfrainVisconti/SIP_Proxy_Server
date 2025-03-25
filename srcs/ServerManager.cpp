@@ -28,12 +28,13 @@ static void    SetSignals()
 
 void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in &client_addr)
 {
-    std::cout << GREEN << "Received SIP packet\n" << message << RESET << std::endl;
+    std::cout << GREEN << "Received SIP message\n" << message << RESET << std::endl;
    
     try
     {
-        SIP sip(_clients, &ServerManager::_client_count, client_addr, this->_sip_socket);
-        sip.ParseSIP(message);
+        SIPMessage sip_message;
+        sip_message.ParseSIP(message);
+        SIP sip(_clients, &ServerManager::_client_count, client_addr, this->_sip_socket, sip_message);
         sip.SIPManagement();
         PrintClients(_clients, ServerManager::_client_count);
     }

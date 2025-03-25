@@ -6,12 +6,15 @@ Socket::Socket(const std::string &host, const uint16_t &port) : host(inet_addr(h
     CreateSocket();
 }
 
+
 Socket::~Socket() {}
+
 
 Socket::Socket(const Socket &other)
 {
     *this = other;
 }
+
 
 Socket &Socket::operator=(const Socket &other)
 {
@@ -25,6 +28,7 @@ Socket &Socket::operator=(const Socket &other)
     return *this;
 }
 
+
 /*
 	Configura la estructura sockaddr_in, en la cual se identifica la
 	familia de la dirección, la dirección IPv4 y el puerto (del socket),
@@ -37,6 +41,7 @@ void	Socket::SetSockaddr_in()
     this->socket_address.sin_addr.s_addr = this->host;
     this->socket_address.sin_port = htons(this->port);
 }
+
 
 /*
 	Implementa la secuencia socket(), bind().
