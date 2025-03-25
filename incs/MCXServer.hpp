@@ -38,5 +38,8 @@ bool        RemoveClient(clients_t *clients, const char *info, short *client_cou
 clients_t*  FindClient(clients_t *clients, const char *info, short client_count);
 void        PrintClients(clients_t *clients, short client_count);
 
+// utils.cpp
+bool        IsEmptyBuffer(const char *buffer);
+
 
 #endif

@@ -18,7 +18,7 @@ INC_DIR        = incs/
 OBJ_DIR        = objs/
 
 # Source files
-SRC_FILE       = main.cpp ServerManager.cpp Socket.cpp SIP.cpp clients_utils.cpp
+SRC_FILE       = main.cpp ServerManager.cpp Socket.cpp SIP.cpp clients_utils.cpp utils.cpp
 INC_FILE       = MCXServer.hpp
 
 SRC            = $(addprefix $(SRC_DIR), $(SRC_FILE))

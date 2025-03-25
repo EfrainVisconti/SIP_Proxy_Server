@@ -4,19 +4,11 @@ volatile sig_atomic_t sig = 0;
 clients_t ServerManager::_clients[MAX_SIP_CLIENTS] = {};
 short ServerManager::_client_count = 0;
 
-short count = 0;
+
+ServerManager::ServerManager() {}
 
 
-ServerManager::ServerManager()
-{
-
-}
-
-
-ServerManager::~ServerManager()
-{
-
-}
+ServerManager::~ServerManager() {}
 
 
 static void    SignalHandler(int sig_num)
@@ -43,10 +35,7 @@ void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in &
         SIP sip(_clients, &ServerManager::_client_count, client_addr, this->_sip_socket);
         sip.ParseSIP(message);
         sip.SIPManagement();
-        count++;
-        if (count == 12)
-            exit(0);
-        //PrintClients(_clients, ServerManager::_client_count);
+        PrintClients(_clients, ServerManager::_client_count);
     }
     catch (const std::runtime_error &e)
     {
@@ -94,6 +83,12 @@ void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
 
             if (recv_len < MAX_SIP_SIZE)
                 sip_buffer[recv_len] = '\0';
+
+            if (IsEmptyBuffer(sip_buffer) == true)
+            {
+                std::cerr << RED << "Empty SIP message received." << RESET << std::endl;
+                continue;
+            }
 
             HandleSIP(sip_buffer, client_addr);
         }

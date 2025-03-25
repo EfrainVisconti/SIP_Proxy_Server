@@ -108,9 +108,6 @@ static std::string GetBody(const std::string &message)
 
 void    SIP::ParseSIP(const char *sip_buffer)
 {
-    if (sip_buffer == NULL || sip_buffer[0] == '\0')
-        throw std::runtime_error("Empty SIP message.");
-
     std::string message(sip_buffer);
 
     this->_type = GetMessageType(message);
@@ -254,10 +251,12 @@ void    SIP::GenerateRequest(const std::string &method)
     request << "Via: " << this->_via << "\r\n";
     request << "From: " << this->_from_tag << "\r\n";
 
-    //Cambiar a this->_to.c_str()
-    clients_t *client = FindClient(this->_clients, this->_from.c_str(), *this->_client_count);
+    clients_t *client = FindClient(this->_clients, this->_to.c_str(), *this->_client_count);
     if (client == NULL)
+    {
         GenerateResponse(404, NULL);
+        return;
+    }
 
     if (client->status == BUSY)
         GenerateResponse(486, NULL);
@@ -330,7 +329,7 @@ void    SIP::ResponseCase()
 {
     if (this->_response == OK)
     {
-        clients_t *client = FindClient(this->_clients, this->_from.c_str(), *this->_client_count);
+        clients_t *client = FindClient(this->_clients, this->_to.c_str(), *this->_client_count);
         if (client != NULL && client->status == WAITING_180)
         {
             GenerateResponse(200, client);
@@ -341,8 +340,7 @@ void    SIP::ResponseCase()
 
     if (this->_response == RINGING)
     {
-        // cambiar por this->_to.c_str()
-        clients_t *client = FindClient(this->_clients, this->_from.c_str(), *this->_client_count);
+        clients_t *client = FindClient(this->_clients, this->_to.c_str(), *this->_client_count);
         if (client != NULL)
         {
             GenerateResponse(180, client);
