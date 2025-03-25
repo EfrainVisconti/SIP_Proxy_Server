@@ -1,11 +1,19 @@
 #include "../incs/MCXServer.hpp"
 
-bool   AddClient(clients_t *clients, const char *info, const struct sockaddr_in *client_addr, short *client_count)
+bool AddClient(clients_t *clients, const char *info, const struct sockaddr_in &client_addr, short *client_count, ClientStatus status)
 {
     if (*client_count >= MAX_SIP_CLIENTS)
         return false;
 
-    clients[*client_count].addr = *client_addr;
+    clients[*client_count].addr = client_addr;
+    clients[*client_count].status = status;
+
+    if (strlen(info) >= sizeof(clients[*client_count].info))
+    {
+        printf("Error: La información del cliente es demasiado larga.\n");
+        return false;
+    }
+
     strncpy(clients[*client_count].info, info, sizeof(clients[*client_count].info) - 1);
     clients[*client_count].info[sizeof(clients[*client_count].info) - 1] = '\0';
 

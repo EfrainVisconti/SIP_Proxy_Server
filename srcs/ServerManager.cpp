@@ -1,7 +1,11 @@
 #include "ServerManager.hpp"
-# include "SIP.hpp"
 
 volatile sig_atomic_t sig = 0;
+clients_t ServerManager::_clients[MAX_SIP_CLIENTS] = {};
+short ServerManager::_client_count = 0;
+
+short count = 0;
+
 
 ServerManager::ServerManager()
 {
@@ -30,15 +34,19 @@ static void    SetSignals()
 }
 
 
-void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in *client_addr)
+void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in &client_addr)
 {
-    std::cout << GREEN << "Received SIP packet" << RESET << std::endl;
+    std::cout << GREEN << "Received SIP packet\n" << message << RESET << std::endl;
    
     try
     {
-        SIP sip;
+        SIP sip(_clients, &ServerManager::_client_count, client_addr, this->_sip_socket);
         sip.ParseSIP(message);
-        sip.HandleMessage();
+        sip.SIPManagement();
+        count++;
+        if (count == 12)
+            exit(0);
+        //PrintClients(_clients, ServerManager::_client_count);
     }
     catch (const std::runtime_error &e)
     {
@@ -51,10 +59,13 @@ void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
 {
     SetSignals();
 
+    this->_sip_socket = sip_socket.fd;
+    this->_rtp_socket = rtp_socket.fd;
+
     struct pollfd fds[2];
-    fds[0].fd = sip_socket.fd;
+    fds[0].fd = this->_sip_socket;
     fds[0].events = POLLIN;
-    fds[1].fd = rtp_socket.fd;
+    fds[1].fd = this->_rtp_socket;
     fds[1].events = POLLIN;
 
     char rtp_buffer[MAX_UDP_SIZE];
@@ -84,7 +95,7 @@ void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
             if (recv_len < MAX_SIP_SIZE)
                 sip_buffer[recv_len] = '\0';
 
-            HandleSIP(sip_buffer, &client_addr);
+            HandleSIP(sip_buffer, client_addr);
         }
 
         if (fds[1].revents & POLLIN) // RTP
