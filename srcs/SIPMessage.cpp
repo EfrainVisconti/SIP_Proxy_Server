@@ -1,6 +1,17 @@
 # include "SIPMessage.hpp"
 
 /* Funciones auxiliares estaticas */
+static std::string  GetHeaderVia(const std::string &message, const size_t &start)
+{
+    size_t end = message.find("\r\n", start);
+    std::string aux1 = message.substr(start, end - start);
+    start = end + 2;
+    end = message.find("\r\n", start);
+    std::string aux2 = message.substr(start, end - start);
+    return aux1 + "\r\n" + aux2;
+}
+
+
 static std::string  GetHeader(const std::string &message, const std::string &header)
 {
     size_t start = message.find(header);
@@ -9,15 +20,8 @@ static std::string  GetHeader(const std::string &message, const std::string &hea
 
     start += header.length();
 
-    if (header == "Via :") //REVISAR ESTO
-    {
-        size_t end = message.find("\r\n", start);
-        std::string aux1 = message.substr(start, end - start);
-        start = end + 2;
-        end = message.find("\r\n", start);
-        std::string aux2 = message.substr(start, end - start);
-        return aux1 + "\r\n" + aux2;
-    }
+    if (header == "Via :")
+        return GetHeaderVia(message, start);
 
     size_t end = message.find("\r\n", start);
     return message.substr(start, end - start);
@@ -65,7 +69,7 @@ void    SIPMessage::ParseSIP(const char *sip_buffer)
 
     this->from_tag = GetHeader(message, "From: ");
     if (this->from_tag.empty())
-        throw std::runtime_error("Missing SIP 'From' header");
+        throw std::runtime_error("Missing SIP 'From' header.");
     else
     {
         if (this->from_tag.find(";") != std::string::npos)

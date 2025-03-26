@@ -23,12 +23,12 @@
 # include "../srcs/SIP.hpp"
 # include "../srcs/SIPMessage.hpp"
 
-// Definiciones de colores para la consola
+// Defines de colores para la consola
 # define RED "\033[31m"
 # define RESET "\033[0m"
 # define GREEN "\033[32m"
 
-// Definiciones auxiliares para el servidor
+// Defines auxiliares para el servidor
 # define HOST "127.0.0.1"
 # define SIP_PORT 5060
 # define RTP_PORT 4000
