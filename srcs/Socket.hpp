@@ -1,7 +1,7 @@
 #ifndef SOCKET_HPP
-#define SOCKET_HPP
+# define SOCKET_HPP
 
-#include "../incs/MCXServer.hpp"
+# include "../incs/MCXServer.hpp"
 
 class Socket
 {
@@ -11,16 +11,15 @@ class Socket
         struct sockaddr_in  socket_address;
         int                 fd;
 
-		Socket(const std::string &host, const uint16_t &port);
+		Socket(const char *host, const uint16_t &port);
 		~Socket();
 		Socket(const Socket &other);
 		Socket &operator=(const Socket &other);
-        void    CreateSocket();
-        void    SetSockaddr_in();
-
-    private:
+		
+	private:
         Socket();
-
+        void    CreateSocket();
+		void	SetSockaddr_in();
 };
 
 #endif

@@ -1,19 +1,16 @@
 #include "ServerManager.hpp"
 
+/* Variables estaticas */
 volatile sig_atomic_t sig = 0;
-clients_t ServerManager::_clients[MAX_SIP_CLIENTS] = {};
+client_t ServerManager::_clients[MAX_SIP_CLIENTS] = {};
 short ServerManager::_client_count = 0;
 
 
-ServerManager::ServerManager() {}
-
-
-ServerManager::~ServerManager() {}
-
-
+/* Funciones auxiliares estaticas */
 static void    SignalHandler(int sig_num)
 {
-    std::cout << RED << "Signal received (" << sig_num << "). Stopping execution..." << RESET << std::endl;
+    std::cout << RED << "Signal received (" << sig_num << "). Stopping execution..."
+              << RESET << std::endl;
     sig = 1;
 }
 
@@ -26,25 +23,14 @@ static void    SetSignals()
 }
 
 
-void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in &client_addr)
-{
-    std::cout << GREEN << "Received SIP message\n" << message << RESET << std::endl;
-   
-    try
-    {
-        SIPMessage sip_message;
-        sip_message.ParseSIP(message);
-        SIP sip(_clients, &ServerManager::_client_count, client_addr, this->_sip_socket, sip_message);
-        sip.SIPManagement();
-        PrintClients(_clients, ServerManager::_client_count);
-    }
-    catch (const std::runtime_error &e)
-    {
-        std::cerr << RED << e.what() << RESET << std::endl;
-    }
-}
+/* Constructor y destructor */
+ServerManager::ServerManager() {}
 
 
+ServerManager::~ServerManager() {}
+
+
+/* Metodos publicos */
 void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
 {
     SetSignals();
@@ -108,5 +94,25 @@ void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
 
             std::cout << "Received RTP packet of size: " << recv_len << " bytes" << std::endl;
         }
+    }
+}
+
+
+/* Metodos privados */
+void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in &client_addr)
+{
+    std::cout << GREEN << "Received SIP message\n" << message << RESET << std::endl;
+   
+    try
+    {
+        SIPMessage sip_message;
+        sip_message.ParseSIP(message);
+        SIP sip(ServerManager::_clients, &ServerManager::_client_count, client_addr, this->_sip_socket, sip_message);
+        sip.SIPManagement();
+        PrintClients(ServerManager::_clients, ServerManager::_client_count);
+    }
+    catch (const std::runtime_error &e)
+    {
+        std::cerr << RED << e.what() << RESET << std::endl;
     }
 }

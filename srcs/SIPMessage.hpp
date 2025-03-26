@@ -32,10 +32,6 @@ enum SIPResponse
 
 class SIPMessage
 {
-    private:
-        void    SetResponse(const std::string &message);
-        SIPType GetMessageType(const std::string &message);
-
     public:
         SIPType		type;
         SIPResponse	response;
@@ -53,6 +49,10 @@ class SIPMessage
         SIPMessage();
 	    ~SIPMessage();
 	    void	ParseSIP(const char *sip_buffer);
+
+    private:
+        SIPType GetMessageType(const std::string &message);
+        void    SetResponse(const std::string &message);
 };
 
 #endif

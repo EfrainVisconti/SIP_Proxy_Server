@@ -1,6 +1,39 @@
 #include "../incs/MCXServer.hpp"
 
-bool AddClient(clients_t *clients, const char *uri, const struct sockaddr_in &client_addr, short *client_count, ClientStatus status)
+/*
+    Auxiliar para agregar los caracteres '<' y '>' a la uri del cliente.
+    Si la uri ya tiene estos caracteres, se hace una copia.
+*/
+static void FindClientAux(const char *input, char *output)
+{
+   size_t len = strlen(input);
+   if (input[0] != '<' || input[len - 1] != '>')
+   {
+       output[0] = '<';
+       strncpy(output + 1, input, len);
+       output[len + 1] = '>';
+       output[len + 2] = '\0';
+   }
+   else
+       strcpy(output, input);
+}
+
+
+client_t*  FindClient(client_t *clients, const char *uri, short client_count)
+{
+    char    uri_format[MAX_SIP_URI + 2];
+    FindClientAux(uri, uri_format);
+
+    for (int i = 0; i < client_count; i++)
+    {
+        if (strcmp(clients[i].uri, uri_format) == 0)
+            return &clients[i];
+    }
+    return NULL;
+}
+
+
+bool AddClient(client_t *clients, const char *uri, const struct sockaddr_in &client_addr, short *client_count, ClientStatus status)
 {
     if (*client_count >= MAX_SIP_CLIENTS)
         return false;
@@ -22,7 +55,7 @@ bool AddClient(clients_t *clients, const char *uri, const struct sockaddr_in &cl
 }
 
 
-bool    RemoveClient(clients_t *clients, const char *uri, short *client_count)
+bool    RemoveClient(client_t *clients, const char *uri, short *client_count)
 {
     for (short i = 0; i < *client_count; i++)
     {
@@ -40,40 +73,7 @@ bool    RemoveClient(clients_t *clients, const char *uri, short *client_count)
 }
 
 
-/*
-    Auxiliar para agregar los caracteres '<' y '>' a la uri del cliente.
-    Si la uri ya tiene estos caracteres, se hace una copia.
-*/
- static void FindClientAux(const char *input, char *output)
- {
-    size_t len = strlen(input);
-    if (input[0] != '<' || input[len - 1] != '>')
-    {
-        output[0] = '<';
-        strncpy(output + 1, input, len);
-        output[len + 1] = '>';
-        output[len + 2] = '\0';
-    }
-    else
-        strcpy(output, input);
- }
-
-
-clients_t*  FindClient(clients_t *clients, const char *uri, short client_count)
-{
-    char    uri_format[MAX_SIP_URI + 2];
-    FindClientAux(uri, uri_format);
-
-    for (int i = 0; i < client_count; i++)
-    {
-        if (strcmp(clients[i].uri, uri_format) == 0)
-            return &clients[i];
-    }
-    return NULL;
-}
-
-
-void    PrintClients(clients_t *clients, short client_count)
+void    PrintClients(client_t *clients, short client_count)
 {
     if (client_count == 0)
     {

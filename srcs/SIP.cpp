@@ -1,6 +1,7 @@
-#include "SIP.hpp"
+# include "SIP.hpp"
 
-SIP::SIP(clients_t *clients, short *client_count, const struct sockaddr_in &client_addr,
+/* Constructor y destructor */
+SIP::SIP(client_t *clients, short *client_count, const struct sockaddr_in &client_addr,
     int socket, const SIPMessage &msg) 
     : _clients(clients), _client_count(client_count), _client_addr(client_addr),
     _socket(socket), _msg(msg) {}
@@ -9,6 +10,7 @@ SIP::SIP(clients_t *clients, short *client_count, const struct sockaddr_in &clie
 SIP::~SIP() {}
 
 
+/* Metodo publico */
 void    SIP::SIPManagement()
 {
     switch (this->_msg.type)
@@ -22,52 +24,31 @@ void    SIP::SIPManagement()
         case INVITE:
             InviteCase();
             break;
-        case BYE:
-            ByeCase();
-            break;
-        case CANCEL:
-            CancelCase();
-            break;
         case ACK:
             AckCase();
             break;
         case MESSAGE:
             MessageCase();
             break;
+        case CANCEL:
+            CancelCase();
+            break;
+        case BYE:
+            ByeCase();
+            break;
         default:
-            GenerateResponse(400, NULL);
+            SendResponse(400, NULL);
             break;
     }
 }
 
 
-void    SIP::GenerateResponse(const short &code, clients_t *client)
+/* Metodos privados principales: SIP Send */
+void    SIP::SendResponse(const short &code, client_t *client)
 {
-    std::string message;
-
-    if (code == 200)
-        message = "OK";
-    else if (code == 100)
-        message = "Trying";
-    else if (code == 180)
-    message = "Ringing";
-    else if (code == 400)
-        message = "Bad Request";
-    else if (code == 403)
-        message = "Forbidden";
-    else if (code == 404)
-        message = "Not Found";
-    else if (code == 486)
-        message = "Busy Here";
-    else if (code == 500)
-        message = "Server Internal Error";
-    else if (code == 401)
-        message = "Unauthorized";
-    else if (code == 503)
-        message = "Service Unavailable";
-
+    std::string phrase = GetSIPReasonPhrase(code);
     std::ostringstream  response;
-    response << "SIP/2.0 " << code << " " << message << "\r\n";
+    response << "SIP/2.0 " << code << " " << phrase << "\r\n";
 
     if (code == 180)
     {
@@ -89,48 +70,25 @@ void    SIP::GenerateResponse(const short &code, clients_t *client)
     if (!this->_msg.body.empty())
         response << this->_msg.body;
 
-    
-    std::string aux = response.str();
-
     if (client != NULL)
-    {
-        if (sendto(this->_socket, aux.c_str(), aux.length(), 0,
-        (struct sockaddr *)&client->addr, sizeof(struct sockaddr_in)) == -1)
-            throw std::runtime_error("Error sending SIP response.");
-        
-        char client_ip[INET_ADDRSTRLEN];
-        inet_ntop(AF_INET, &(client->addr.sin_addr), client_ip, INET_ADDRSTRLEN);
-        std::cout << GREEN << "Sending response to: " << client_ip << ":" << ntohs(client->addr.sin_port);
-        std::cout <<" " << client->uri << std::endl;
-        std::cout << response.str() << RESET << std::endl;
-    }
+        SendSIPMessage(response.str(), client->addr, client->uri, true);
     else
-    {
-        if (sendto(this->_socket, aux.c_str(), aux.length(), 0,
-        (struct sockaddr *)&this->_client_addr, sizeof(struct sockaddr_in)) == -1)
-            throw std::runtime_error("Error sending SIP response.");
-    
-        char client_ip[INET_ADDRSTRLEN];
-        inet_ntop(AF_INET, &(this->_client_addr.sin_addr), client_ip, INET_ADDRSTRLEN);
-        std::cout << GREEN << "Sending response to: " << client_ip << ":" << ntohs(this->_client_addr.sin_port);
-        std::cout <<" " << this->_msg.from << std::endl;
-        std::cout << response.str() << RESET << std::endl;
-    }
+        SendSIPMessage(response.str(), this->_client_addr, this->_msg.from, true);
 }
 
 
-void    SIP::GenerateRequest(const std::string &method)
+void    SIP::SendRequest(const std::string &method)
 {
-    clients_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
+    client_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
     if (client == NULL)
     {
-        GenerateResponse(404, NULL);
+        SendResponse(404, NULL);
         throw std::runtime_error("404 Receiver Not Found.");
     }
 
     if (client->status == BUSY)
     {
-        GenerateResponse(486, NULL);
+        SendResponse(486, NULL);
         throw std::runtime_error("486 Receiver is busy.");
     }
 
@@ -155,87 +113,62 @@ void    SIP::GenerateRequest(const std::string &method)
     if (!this->_msg.body.empty())
         request << this->_msg.body;
 
-    std::string aux = request.str();
-
-    if (sendto(this->_socket, aux.c_str(), aux.length(), 0,
-    (struct sockaddr *)&client->addr, sizeof(struct sockaddr_in)) == -1)
-        throw std::runtime_error("Error sending SIP response.");
-
-    char client_ip[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET, &(client->addr.sin_addr), client_ip, INET_ADDRSTRLEN);
-    std::cout << GREEN << "Sending request to: " << client_ip << ":" << ntohs(client->addr.sin_port);
-    std::cout << " " << client->uri << std::endl;
-    std::cout << request.str() << RESET << std::endl;
+    SendSIPMessage(request.str(), client->addr, client->uri, false);
 }
 
 
-void    SIP::RegisterCase()
+/* Metodos privados auxiliares */
+std::string  SIP::GetSIPReasonPhrase(const short &code)
 {
-    if (FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count) == NULL)
+    if (code == 200)
+        return "OK";
+    if (code == 100)
+        return "Trying";
+    if (code == 180)
+        return "Ringing";
+    if (code == 400)
+        return "Bad Request";
+    if (code == 403)
+        return "Forbidden";
+    if (code == 404)
+        return "Not Found";
+    if (code == 486)
+        return "Busy Here";
+    if (code == 500)
+        return "Server Internal Error";
+    if (code == 401)
+        return "Unauthorized";
+    if (code == 503)
+        return "Service Unavailable";
+    return "Unknown";
+}
+
+
+void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in &addr,
+                            const std::string &uri, bool is_response)
+{
+    if (is_response)
     {
-        if (AddClient(this->_clients, this->_msg.from.c_str(), this->_client_addr, this->_client_count, RECENTLY_REGISTERED) == false)
-        {
-            GenerateResponse(403, NULL); //Too many clients
-            return;
-        }
-    }
-
-    GenerateResponse(200, NULL);
-}
-
-
-void    SIP::InviteCase()
-{
-    GenerateRequest("INVITE");
-    GenerateResponse(100, NULL);
+        if (sendto(this->_socket, message.c_str(), message.length(), 0,
+        (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)
+            throw std::runtime_error("Error sending SIP response.");
     
-    clients_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
-    if (current != NULL)
-        current->status = WAITING_180;
-
-}
-
-void    SIP::ByeCase()
-{
-    std::cout << "SIP bye" << std::endl;
-}
-
-void    SIP::CancelCase()
-{
-    std::cout << "SIP cancel" << std::endl;
-}
-
-void    SIP::AckCase()
-{
-    std::cout << "SIP ack" << std::endl;
-}
-
-void    SIP::MessageCase()
-{
-    std::cout << "SIP message" << std::endl;
-}
-
-void    SIP::ResponseCase()
-{
-    if (this->_msg.response == OK)
-    {
-        clients_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
-        if (client != NULL && client->status == WAITING_180)
-        {
-            GenerateResponse(200, client);
-            client->status = WAITING_ACK;
-        }
-        return;
+        char client_ip[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(addr.sin_addr), client_ip, INET_ADDRSTRLEN);
+        std::cout << GREEN << "Sending response to: " << client_ip << ":" << ntohs(addr.sin_port);
+        std::cout <<" " << uri << std::endl;
+        std::cout << message << RESET << std::endl;
     }
-
-    if (this->_msg.response == RINGING)
+    else
     {
-        clients_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
-        if (client != NULL)
-        {
-            GenerateResponse(180, client);
-            client->status = WAITING_ACK;
-        }
-        return;
+        if (sendto(this->_socket, message.c_str(), message.length(), 0,
+        (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)
+            throw std::runtime_error("Error sending SIP response.");
+
+        char client_ip[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(addr.sin_addr), client_ip, INET_ADDRSTRLEN);
+        std::cout << GREEN << "Sending request to: " << client_ip << ":" << ntohs(addr.sin_port);
+        std::cout << " " << uri << std::endl;
+        std::cout << message << RESET << std::endl;
     }
 }

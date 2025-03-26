@@ -1,6 +1,7 @@
-#include "Socket.hpp"
+# include "Socket.hpp"
 
-Socket::Socket(const std::string &host, const uint16_t &port) : host(inet_addr(host.c_str())), port(port)
+/* Constructor, destructor y forma canonica ortodoxa */
+Socket::Socket(const char *host, const uint16_t &port) : host(inet_addr(host)), port(port)
 {
 	this->fd = 0;
     CreateSocket();
@@ -29,20 +30,7 @@ Socket &Socket::operator=(const Socket &other)
 }
 
 
-/*
-	Configura la estructura sockaddr_in, en la cual se identifica la
-	familia de la dirección, la dirección IPv4 y el puerto (del socket),
-	es almacenada en socket_address). 
-*/
-void	Socket::SetSockaddr_in()
-{
-	memset(&(this->socket_address), 0, sizeof(this->socket_address));
-	this->socket_address.sin_family = AF_INET;
-    this->socket_address.sin_addr.s_addr = this->host;
-    this->socket_address.sin_port = htons(this->port);
-}
-
-
+/* Metodos privados */
 /*
 	Implementa la secuencia socket(), bind().
 	* fd: identifica al socket que quedará a la espera de recibir.
@@ -79,4 +67,18 @@ void    Socket::CreateSocket()
 		close(this->fd);
 		throw std::runtime_error("bind() error. Stopping execution...");
     }
+}
+
+
+/*
+	Configura la estructura sockaddr_in, en la cual se identifica la
+	familia de la dirección, la dirección IPv4 y el puerto del socket,
+	es almacenada en socket_address). 
+*/
+void    Socket::SetSockaddr_in()
+{
+	memset(&(this->socket_address), 0, sizeof(this->socket_address));
+	this->socket_address.sin_family = AF_INET;
+    this->socket_address.sin_addr.s_addr = this->host;
+    this->socket_address.sin_port = htons(this->port);
 }
