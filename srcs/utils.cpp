@@ -25,8 +25,11 @@ bool IsEmptyBuffer(const char *buffer)
 */
 void    RemoveBrackets(char *aux, const char *uri)
 {
+    if (aux == NULL || uri == NULL)
+        return;
+
     size_t len = strlen(uri);
-    if (uri[0] == '<' && uri[len - 1] == '>')
+    if (len > 2 && uri[0] == '<' && uri[len - 1] == '>')
     {
         strncpy(aux, uri + 1, len - 2);
         aux[len - 2] = '\0';

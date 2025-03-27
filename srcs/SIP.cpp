@@ -2,7 +2,7 @@
 
 /* Constructor y destructor */
 SIP::SIP(client_t *clients, short *client_count, const struct sockaddr_in &client_addr,
-    int socket, const SIPMessage &msg) 
+    const Socket &socket, const SIPMessage &msg) 
     : _clients(clients), _client_count(client_count), _client_addr(client_addr),
     _socket(socket), _msg(msg) {}
 
@@ -37,7 +37,7 @@ void    SIP::SendResponse(const short &code, client_t *client)
     std::ostringstream  response;
     response << "SIP/2.0 " << code << " " << phrase << "\r\n";
 
-    if (code == 180)
+    if (code == 180) // Revisar
     {
         std::string aux = this->_msg.via.substr(0, this->_msg.via.find("\r\n"));
         response << "Via: " << aux << "\r\n";
@@ -46,11 +46,11 @@ void    SIP::SendResponse(const short &code, client_t *client)
         response << "Via: " << this->_msg.via << "\r\n";
 
     response << "From: " << this->_msg.from_tag << "\r\n";
-    response << "To: " << this->_msg.to << "\r\n";
+    response << "To: " << this->_msg.to << ";tag=server1\r\n"; //Revisar gestión tag
     response << "Call-ID: " << this->_msg.call_id << "\r\n";
     response << "CSeq: " << this->_msg.cseq << "\r\n";
-    response << "Contact: " << this->_msg.contact << "\r\n";
-    response << "Expires: 3600\r\n";
+    // response << "Contact: " << this->_msg.contact << "\r\n";
+    response << "Expires: " << this->_msg.expires << "\r\n";
     response << "Content-Length: " << this->_msg.content_length << "\r\n";
     response << "\r\n";
 
@@ -69,31 +69,34 @@ void    SIP::SendRequest(const std::string &method)
     client_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
     if (client == NULL)
     {
-        SendResponse(404, NULL);
+        SendResponse(404, NULL); // Not Found
         throw std::runtime_error("404 Receiver Not Found.");
     }
 
-    if (client->status == BUSY)
-    {
-        SendResponse(486, NULL);
-        throw std::runtime_error("486 Receiver is busy.");
-    }
-
-    client->status = WAITING_180;
-
+    
     char no_brackets[MAX_SIP_URI];
     RemoveBrackets(no_brackets, client->uri);
+    
     std::ostringstream  request;
     request << method << " " << no_brackets << " SIP/2.0\r\n";
-    request << "Via: SIP/2.0/UDP " << HOST << ":" << SIP_PORT << "\r\n";
+    
+    if (method == "INVITE") // De momento
+    {
+        client->status = RESPONDING_TO_INVITE;
+        char socket_ip[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(this->_socket.socket_address.sin_addr), socket_ip, INET_ADDRSTRLEN);
+        request << "Via: SIP/2.0/UDP " << socket_ip << ":"
+                << ntohs(this->_socket.socket_address.sin_port) << "\r\n";
+    }
+
     request << "Via: " << this->_msg.via << "\r\n";
     request << "From: " << this->_msg.from_tag << "\r\n";
-    request << "To: " << client->uri << "\r\n";
+    request << "To: " << this->_msg.to << "\r\n";
     request << "Call-ID: " << this->_msg.call_id << "\r\n";
     request << "CSeq: " << this->_msg.cseq << "\r\n";
-    request << "Max-Forwards: 70\r\n";
-    request << "Contact: " << this->_msg.from << "\r\n"; //Siempre la URI del 'caller'
-    request << "Expires: 3600\r\n"; //Cambiar
+    //request << "Max-Forwards: 70\r\n";
+    request << "Contact: " << this->_msg.contact << "\r\n"; // Siempre la URI del 'caller'
+    request << "Expires: " << this->_msg.expires << "\r\n";
     request << "Content-Length: " << this->_msg.content_length << "\r\n";
     request << "\r\n";
 
@@ -142,7 +145,7 @@ void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in
 {
     if (is_response)
     {
-        if (sendto(this->_socket, message.c_str(), message.length(), 0,
+        if (sendto(this->_socket.fd, message.c_str(), message.length(), 0,
         (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)
             throw std::runtime_error("Error sending SIP response.");
     
@@ -154,7 +157,7 @@ void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in
     }
     else
     {
-        if (sendto(this->_socket, message.c_str(), message.length(), 0,
+        if (sendto(this->_socket.fd, message.c_str(), message.length(), 0,
         (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)
             throw std::runtime_error("Error sending SIP response.");
 

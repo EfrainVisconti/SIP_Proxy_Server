@@ -7,10 +7,8 @@
 enum ClientStatus
 {
     RECENTLY_REGISTERED,
-    WAITING_180,
-    WAITING_ACK,
-    BUSY,
-    AVAILABLE
+    RESPONDING_TO_INVITE, // Secuencia 100 Trying, 180 Ringing, 200 OK
+    SENDING_ACK, // Enviando ACK tras enviar INVITE
 };
 
 typedef struct client_s

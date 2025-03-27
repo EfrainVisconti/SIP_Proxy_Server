@@ -6,10 +6,10 @@ void    SIP::ResponseCase()
     if (this->_msg.response == OK)
     {
         client_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
-        if (client != NULL && client->status == WAITING_180)
+        if (client != NULL && client->status == RESPONDING_TO_INVITE)
         {
             SendResponse(200, client);
-            client->status = WAITING_ACK;
+            client->status = RESPONDING_TO_INVITE;
         }
         return;
     }
@@ -20,7 +20,7 @@ void    SIP::ResponseCase()
         if (client != NULL)
         {
             SendResponse(180, client);
-            client->status = WAITING_ACK;
+            client->status = RESPONDING_TO_INVITE;
         }
         return;
     }
@@ -44,15 +44,17 @@ void    SIP::RegisterCase()
     SendResponse(200, NULL);
 }
 
+/*
 
+*/
 void    SIP::InviteCase()
 {
-    SendRequest("INVITE");
     SendResponse(100, NULL);
+    SendRequest("INVITE");
     
     client_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
     if (current != NULL)
-        current->status = WAITING_180;
+        current->status = SENDING_ACK;
 
 }
 

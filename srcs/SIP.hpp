@@ -10,7 +10,7 @@ class SIP
 {
 	public:
 		SIP(client_t *clients, short *client_count,
-			const struct sockaddr_in &client_addr, int socket,
+			const struct sockaddr_in &client_addr, const Socket &socket,
 			const SIPMessage &msg);
 		~SIP();
 		void	SIPManagement();
@@ -19,7 +19,7 @@ class SIP
 		client_t					*_clients;
 		short						*_client_count;
 		const struct sockaddr_in	_client_addr;
-		int							_socket;
+		const Socket				&_socket;
 		const SIPMessage			&_msg;
 
 		SIP();
