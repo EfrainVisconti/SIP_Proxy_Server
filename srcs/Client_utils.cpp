@@ -7,7 +7,7 @@
 static void FindClientAux(const char *input, char *output)
 {
    size_t len = strlen(input);
-   if (input[0] != '<' || input[len - 1] != '>')
+   if (len > 0 && input[0] != '<' && input[len - 1] != '>')
    {
        output[0] = '<';
        strncpy(output + 1, input, len);
@@ -18,9 +18,17 @@ static void FindClientAux(const char *input, char *output)
        strcpy(output, input);
 }
 
+/*
 
-client_t*  FindClient(client_t *clients, const char *uri, short client_count)
+*/
+client_t    *FindClient(client_t *clients, const char *uri, short client_count)
 {
+    if (clients == NULL || uri == NULL)
+    {
+        std::cout << "Error: Argumentos invalidos en FindClient()." << std::endl;
+        return NULL;
+    }
+
     char    uri_format[MAX_SIP_URI + 2];
     FindClientAux(uri, uri_format);
 
@@ -33,22 +41,32 @@ client_t*  FindClient(client_t *clients, const char *uri, short client_count)
 }
 
 
-bool AddClient(client_t *clients, const char *uri, const struct sockaddr_in &client_addr, short *client_count, ClientStatus status)
+/*
+
+*/
+bool AddClient(client_t *clients, const char *uri, const struct sockaddr_in &client_addr,
+                short *client_count, ClientStatus status)
 {
-    if (*client_count >= MAX_SIP_CLIENTS)
-        return false;
-
-    clients[*client_count].addr = client_addr;
-    clients[*client_count].status = status;
-
-    if (strlen(uri) >= sizeof(clients[*client_count].uri))
+    if (clients == NULL || uri == NULL || client_count == NULL)
     {
-        std::cout << "Error: La información del cliente es demasiado larga." << std::endl;
+        std::cout << "Error: Argumentos invalidos en AddClient()." << std::endl;
         return false;
     }
 
-    strncpy(clients[*client_count].uri, uri, sizeof(clients[*client_count].uri) - 1);
-    clients[*client_count].uri[sizeof(clients[*client_count].uri) - 1] = '\0';
+    if (*client_count >= MAX_SIP_CLIENTS)
+        return false;
+
+        
+    if (strlen(uri) >= MAX_SIP_URI)
+    {
+        std::cout << "Error: La URI del cliente es demasiado larga." << std::endl;
+        return false;
+    }
+        
+    clients[*client_count].addr = client_addr;
+    clients[*client_count].status = status;
+    strncpy(clients[*client_count].uri, uri, MAX_SIP_URI - 1);
+    clients[*client_count].uri[MAX_SIP_URI - 1] = '\0';
 
     (*client_count)++;
     return true;

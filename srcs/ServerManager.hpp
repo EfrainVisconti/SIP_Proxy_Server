@@ -10,7 +10,7 @@ class Socket;
 class ServerManager
 {
     private:
-		static client_t	_clients[MAX_SIP_CLIENTS];
+		static client_t		_clients[MAX_SIP_CLIENTS];
 		static short		_client_count;
 		int					_sip_socket;
 		int					_rtp_socket;

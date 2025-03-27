@@ -2,7 +2,7 @@
 # define CLIENT_HPP
 
 # define MAX_SIP_URI 256
-# define MAX_SIP_CLIENTS 1024
+# define MAX_SIP_CLIENTS 100
 
 enum ClientStatus
 {

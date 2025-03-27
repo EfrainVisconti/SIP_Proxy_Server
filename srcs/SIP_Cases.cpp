@@ -27,17 +27,20 @@ void    SIP::ResponseCase()
 }
 
 
+/*
+
+*/
 void    SIP::RegisterCase()
 {
     if (FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count) == NULL)
     {
-        if (AddClient(this->_clients, this->_msg.from.c_str(), this->_client_addr, this->_client_count, RECENTLY_REGISTERED) == false)
+        if (AddClient(this->_clients, this->_msg.from.c_str(), this->_client_addr,
+            this->_client_count, RECENTLY_REGISTERED) == false)
         {
-            SendResponse(403, NULL); //Too many clients
+            SendResponse(403, NULL); // Forbidden
             return;
         }
     }
-
     SendResponse(200, NULL);
 }
 
