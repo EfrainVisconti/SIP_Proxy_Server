@@ -12,16 +12,17 @@ class ServerManager
     private:
 		static client_t		_clients[MAX_SIP_CLIENTS];
 		static short		_client_count;
-		int					_sip_socket;
-		int					_rtp_socket;
+		const Socket				&_sip_socket;
+		const Socket				&_rtp_socket;
 
+		ServerManager();
 		void    HandleSIP(const char *message, const struct sockaddr_in &client_addr);
 
 	public:
-		ServerManager();
+		ServerManager(const Socket &sip_socket, const Socket &rtp_socket);
 		~ServerManager();
 
-		void	LaunchServer(Socket &sip_socket, Socket &rtp_socket);
+		void	LaunchServer();
 };
 
 #endif

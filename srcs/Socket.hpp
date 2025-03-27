@@ -11,13 +11,13 @@ class Socket
         struct sockaddr_in  socket_address;
         int                 fd;
 
+        Socket();
 		Socket(const char *host, const uint16_t &port);
 		~Socket();
 		Socket(const Socket &other);
 		Socket &operator=(const Socket &other);
 		
 	private:
-        Socket();
         void    CreateSocket();
 		void	SetSockaddr_in();
 };

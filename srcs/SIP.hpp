@@ -18,7 +18,7 @@ class SIP
 	private:
 		client_t					*_clients;
 		short						*_client_count;
-		const struct sockaddr_in	_client_addr;
+		const struct sockaddr_in	_addr;
 		const Socket				&_socket;
 		const SIPMessage			&_msg;
 

@@ -37,6 +37,7 @@ class SIPMessage
         SIPResponse	response;
         std::string	via;
         std::string	to;
+        std::string	to_tag;
         std::string	from;
         std::string	from_tag;
         std::string	call_id;

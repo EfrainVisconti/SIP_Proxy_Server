@@ -115,9 +115,17 @@ void    SIPMessage::ParseSIP(const char *sip_buffer)
             this->from = this->from_tag;
     }
 
-    this->to = GetHeader(message, "To: ");
-    if (this->to.empty())
+    this->to_tag = GetHeader(message, "To: ");
+    if (this->to_tag.empty())
         throw std::runtime_error("Missing SIP 'To' header.");
+    else
+    {
+        if (this->to_tag.find(";") != std::string::npos)
+            this->to = this->to_tag.substr(0, this->to_tag.find(";"));
+        else
+            this->to = this->to_tag;
+    }
+    
 
     this->cseq = GetHeader(message, "CSeq: ");
     this->call_id = GetHeader(message, "Call-ID: ");

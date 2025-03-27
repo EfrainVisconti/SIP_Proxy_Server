@@ -1,9 +1,9 @@
 # include "SIP.hpp"
 
 /* Constructor y destructor */
-SIP::SIP(client_t *clients, short *client_count, const struct sockaddr_in &client_addr,
+SIP::SIP(client_t *clients, short *client_count, const struct sockaddr_in &_addr,
     const Socket &socket, const SIPMessage &msg) 
-    : _clients(clients), _client_count(client_count), _client_addr(client_addr),
+    : _clients(clients), _client_count(client_count), _addr(_addr),
     _socket(socket), _msg(msg) {}
 
 
@@ -36,17 +36,9 @@ void    SIP::SendResponse(const short &code, client_t *client)
     std::string phrase = GetSIPReasonPhrase(code);
     std::ostringstream  response;
     response << "SIP/2.0 " << code << " " << phrase << "\r\n";
-
-    if (code == 180) // Revisar
-    {
-        std::string aux = this->_msg.via.substr(0, this->_msg.via.find("\r\n"));
-        response << "Via: " << aux << "\r\n";
-    }
-    else
-        response << "Via: " << this->_msg.via << "\r\n";
-
+    response << "Via: " << this->_msg.via << "\r\n"; // Revisar
     response << "From: " << this->_msg.from_tag << "\r\n";
-    response << "To: " << this->_msg.to << ";tag=server1\r\n"; //Revisar gestión tag
+    response << "To: " << this->_msg.to_tag << "\r\n"; //Revisar gestión tag
     response << "Call-ID: " << this->_msg.call_id << "\r\n";
     response << "CSeq: " << this->_msg.cseq << "\r\n";
     // response << "Contact: " << this->_msg.contact << "\r\n";
@@ -60,7 +52,7 @@ void    SIP::SendResponse(const short &code, client_t *client)
     if (client != NULL)
         SendSIPMessage(response.str(), client->addr, client->uri, true);
     else
-        SendSIPMessage(response.str(), this->_client_addr, this->_msg.from, true);
+        SendSIPMessage(response.str(), this->_addr, this->_msg.from, true);
 }
 
 
@@ -86,15 +78,15 @@ void    SIP::SendRequest(const std::string &method)
         char socket_ip[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(this->_socket.socket_address.sin_addr), socket_ip, INET_ADDRSTRLEN);
         request << "Via: SIP/2.0/UDP " << socket_ip << ":"
-                << ntohs(this->_socket.socket_address.sin_port) << "\r\n";
+                << ntohs(this->_socket.socket_address.sin_port) << ";branch=z9hG4bK-server\r\n";
     }
 
     request << "Via: " << this->_msg.via << "\r\n";
     request << "From: " << this->_msg.from_tag << "\r\n";
-    request << "To: " << this->_msg.to << "\r\n";
+    request << "To: " << this->_msg.to_tag << "\r\n";
     request << "Call-ID: " << this->_msg.call_id << "\r\n";
     request << "CSeq: " << this->_msg.cseq << "\r\n";
-    //request << "Max-Forwards: 70\r\n";
+    request << "Max-Forwards: 70\r\n";
     request << "Contact: " << this->_msg.contact << "\r\n"; // Siempre la URI del 'caller'
     request << "Expires: " << this->_msg.expires << "\r\n";
     request << "Content-Length: " << this->_msg.content_length << "\r\n";

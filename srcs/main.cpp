@@ -4,11 +4,11 @@ int main()
 {
     try
     {
-        ServerManager server_manager;
         Socket sip_socket(HOST, SIP_PORT);
         Socket rtp_socket(HOST, RTP_PORT);
 
-        server_manager.LaunchServer(sip_socket, rtp_socket);
+        ServerManager server_manager(sip_socket, rtp_socket);
+        server_manager.LaunchServer();
     }
     catch (const std::runtime_error &e)
     {

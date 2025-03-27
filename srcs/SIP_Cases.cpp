@@ -1,29 +1,31 @@
 # include "SIP.hpp"
 
 /* Metodos privados principales: SIP Cases */
+/*
+    100 Trying es ignorada por razones de simplicidad y eficiencia.
+    Despues de un INVITE: 180 y 200 se reenvian al emisor de la llamada.
+
+    404 Not Found se envia si el receptor no esta registrado.
+*/
 void    SIP::ResponseCase()
 {
-    if (this->_msg.response == OK)
+    client_t *client = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count); // OJO, es from no to
+    if (client == NULL)
     {
-        client_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
-        if (client != NULL && client->status == RESPONDING_TO_INVITE)
-        {
-            SendResponse(200, client);
-            client->status = RESPONDING_TO_INVITE;
-        }
+        SendResponse(404, NULL); // Not Found
         return;
     }
 
-    if (this->_msg.response == RINGING)
+    if (this->_msg.response == RINGING && client->status == WAITING_200)
     {
-        client_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
-        if (client != NULL)
-        {
-            SendResponse(180, client);
-            client->status = RESPONDING_TO_INVITE;
-        }
+        SendResponse(180, client); // Ringing
+        client->status = SENDING_ACK;
         return;
     }
+
+    if (this->_msg.response == OK && (client->status == WAITING_200 || client->status == SENDING_ACK))
+        SendResponse(200, client);
+
 }
 
 
@@ -34,7 +36,7 @@ void    SIP::RegisterCase()
 {
     if (FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count) == NULL)
     {
-        if (AddClient(this->_clients, this->_msg.from.c_str(), this->_client_addr,
+        if (AddClient(this->_clients, this->_msg.from.c_str(), this->_addr,
             this->_client_count, RECENTLY_REGISTERED) == false)
         {
             SendResponse(403, NULL); // Forbidden
@@ -49,19 +51,25 @@ void    SIP::RegisterCase()
 */
 void    SIP::InviteCase()
 {
-    SendResponse(100, NULL);
-    SendRequest("INVITE");
-    
     client_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
     if (current != NULL)
-        current->status = SENDING_ACK;
+        current->status = WAITING_200;
 
+    SendResponse(100, NULL);
+    SendRequest("INVITE");
 }
 
 
+/*
+
+*/
 void    SIP::AckCase()
 {
-    std::cout << "SIP ack" << std::endl;
+    client_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
+    if (current != NULL)
+        current->status = CONNECTED; // Falta gestion si no se encuentra el destinatario
+
+    SendRequest("ACK");
 }
 
 

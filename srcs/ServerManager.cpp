@@ -24,24 +24,22 @@ static void    SetSignals()
 
 
 /* Constructor y destructor */
-ServerManager::ServerManager() {}
+ServerManager::ServerManager(const Socket &sip_socket, const Socket &rtp_socket)
+                            : _sip_socket(sip_socket), _rtp_socket(rtp_socket) {}
 
 
 ServerManager::~ServerManager() {}
 
 
 /* Metodos publicos */
-void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
+void    ServerManager::LaunchServer()
 {
     SetSignals();
 
-    this->_sip_socket = sip_socket.fd;
-    this->_rtp_socket = rtp_socket.fd;
-
     struct pollfd fds[2];
-    fds[0].fd = this->_sip_socket;
+    fds[0].fd = this->_sip_socket.fd;
     fds[0].events = POLLIN;
-    fds[1].fd = this->_rtp_socket;
+    fds[1].fd = this->_rtp_socket.fd;
     fds[1].events = POLLIN;
 
     char rtp_buffer[MAX_UDP_SIZE];
@@ -61,7 +59,7 @@ void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
             struct sockaddr_in client_addr;
             socklen_t addr_len = sizeof(client_addr);
 
-            int recv_len = recvfrom(sip_socket.fd, sip_buffer, sizeof(sip_buffer), 0, (struct sockaddr *)&client_addr, &addr_len);
+            int recv_len = recvfrom(this->_sip_socket.fd, sip_buffer, sizeof(sip_buffer), 0, (struct sockaddr *)&client_addr, &addr_len);
             if (recv_len == -1)
             {
                 std::cerr << RED << "Error receiving SIP packet: " << strerror(errno) << RESET << std::endl;
@@ -85,7 +83,7 @@ void    ServerManager::LaunchServer(Socket &sip_socket, Socket &rtp_socket)
             struct sockaddr_in client_addr;
             socklen_t addr_len = sizeof(client_addr);
 
-            int recv_len = recvfrom(rtp_socket.fd, rtp_buffer, sizeof(rtp_buffer), 0, (struct sockaddr *)&client_addr, &addr_len);
+            int recv_len = recvfrom(this->_rtp_socket.fd, rtp_buffer, sizeof(rtp_buffer), 0, (struct sockaddr *)&client_addr, &addr_len);
             if (recv_len == -1)
             {
                 std::cerr << RED << "Error receiving RTP packet: " << strerror(errno) << RESET << std::endl;
