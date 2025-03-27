@@ -11,34 +11,21 @@ SIP::~SIP() {}
 
 
 /* Metodo publico */
+/*
+
+*/
 void    SIP::SIPManagement()
 {
     switch (this->_msg.type)
     {
-        case RESPONSE:
-            ResponseCase();
-            break;
-        case REGISTER:
-            RegisterCase();
-            break;
-        case INVITE:
-            InviteCase();
-            break;
-        case ACK:
-            AckCase();
-            break;
-        case MESSAGE:
-            MessageCase();
-            break;
-        case CANCEL:
-            CancelCase();
-            break;
-        case BYE:
-            ByeCase();
-            break;
-        default:
-            SendResponse(400, NULL);
-            break;
+        case RESPONSE: ResponseCase(); break;
+        case REGISTER: RegisterCase(); break;
+        case INVITE: InviteCase(); break;
+        case ACK: AckCase(); break;
+        case MESSAGE: MessageCase(); break;
+        case CANCEL: CancelCase(); break;
+        case BYE: ByeCase(); break;
+        default: SendResponse(400, NULL); break;
     }
 }
 
@@ -118,6 +105,9 @@ void    SIP::SendRequest(const std::string &method)
 
 
 /* Metodos privados auxiliares */
+/*
+
+*/
 std::string  SIP::GetSIPReasonPhrase(const short &code)
 {
     if (code == 200)
@@ -128,6 +118,8 @@ std::string  SIP::GetSIPReasonPhrase(const short &code)
         return "Ringing";
     if (code == 400)
         return "Bad Request";
+    if (code == 401)
+        return "Unauthorized";
     if (code == 403)
         return "Forbidden";
     if (code == 404)
@@ -136,14 +128,15 @@ std::string  SIP::GetSIPReasonPhrase(const short &code)
         return "Busy Here";
     if (code == 500)
         return "Server Internal Error";
-    if (code == 401)
-        return "Unauthorized";
     if (code == 503)
         return "Service Unavailable";
     return "Unknown";
 }
 
 
+/*
+
+*/
 void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in &addr,
                             const std::string &uri, bool is_response)
 {

@@ -32,11 +32,14 @@ Socket &Socket::operator=(const Socket &other)
 /* Metodos privados */
 /*
 	Implementa la secuencia socket(), bind().
-	* fd: identifica al socket que quedará a la espera de recibir.
+    * AF_INET: indica que se usará la familia de direcciones IPv4.
+    * SOCK_DGRAM: indica que se usará el protocolo UDP.
+	* this->fd: identifica al socket que quedará enlazado a la dirección y puerto.
 	* socket_address: identifica la dirección y puerto del servidor.
 
-	* setsockopt() se usa para evitar el error "Address already in use".
-	* fcntl() configura el socket en modo no bloqueante (O_NONBLOCK).
+	* setsockopt(SOL_SOCKET, SO_REUSEADDR) se usa para evitar el error "Address already in use".
+	* fcntl(O_NONBLOCK) configura el socket en modo no bloqueante.
+    * SetSockaddr_in() configura la estructura sockaddr_in.
 
 	NOTA: lanza std::runtime_error() explícita en caso de error.
 */
@@ -71,8 +74,8 @@ void    Socket::CreateSocket()
 
 /*
 	Configura la estructura sockaddr_in, en la cual se identifica la
-	familia de la dirección, la dirección IPv4 y el puerto del socket,
-	es almacenada en socket_address). 
+	familia de la dirección AF_INET, la dirección IPv4 y el puerto del
+    socket, es almacenada en socket_address). 
 */
 void    Socket::SetSockaddr_in()
 {

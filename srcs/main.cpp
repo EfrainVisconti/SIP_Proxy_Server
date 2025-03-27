@@ -15,5 +15,6 @@ int main()
         std::cerr << RED << e.what() << RESET << std::endl;
         return EXIT_FAILURE;
     }
+
     return EXIT_SUCCESS;
 }

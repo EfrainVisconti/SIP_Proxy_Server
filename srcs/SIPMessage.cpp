@@ -1,42 +1,76 @@
 # include "SIPMessage.hpp"
 
 /* Funciones auxiliares estaticas */
-static std::string  GetHeaderVia(const std::string &message, const size_t &start)
+/*
+
+*/
+static std::string  GetHeaderVia(const std::string &message, size_t &start) 
 {
-    size_t end = message.find("\r\n", start);
-    std::string aux1 = message.substr(start, end - start);
-    start = end + 2;
-    end = message.find("\r\n", start);
-    std::string aux2 = message.substr(start, end - start);
-    return aux1 + "\r\n" + aux2;
+    std::string ret;
+    bool is_first = true;
+
+    while (message.find("Via :", start) == start)
+    {
+        size_t end = message.find("\r\n", start);
+        if (end == std::string::npos)
+            return "";
+
+        if (is_first == false)
+            ret += "\r\n";
+        else
+            is_first = false;
+
+        ret += message.substr(start, end - start);
+        start = end + 2;
+    }
+
+    if (ret.empty())
+        return "";
+
+    return ret;
 }
 
 
+/*
+
+*/
 static std::string  GetHeader(const std::string &message, const std::string &header)
 {
     size_t start = message.find(header);
     if (start == std::string::npos)
         return "";
 
-    start += header.length();
-
     if (header == "Via :")
         return GetHeaderVia(message, start);
 
+    start += header.length();
     size_t end = message.find("\r\n", start);
-    return message.substr(start, end - start);
+    if (end == std::string::npos)
+        throw std::runtime_error("Invalid SIP message format.");
+
+    std::string ret = message.substr(start, end - start);
+    if (ret.empty())
+        return "";
+
+    return ret;
 }
 
 
+/*
+
+*/
 static std::string  GetBody(const std::string &message)
 {
     size_t start = message.find("\r\n\r\n");
-
     if (start == std::string::npos)
         return "";
 
     start += 4;
-    return message.substr(start);
+    std::string ret = message.substr(start);
+    if (ret.empty())
+        return "";
+
+    return ret;
 }
 
 
@@ -54,6 +88,9 @@ SIPMessage::~SIPMessage() {}
 
 
 /* Metodos publicos */
+/*
+
+*/
 void    SIPMessage::ParseSIP(const char *sip_buffer)
 {
     std::string message(sip_buffer);
@@ -86,19 +123,22 @@ void    SIPMessage::ParseSIP(const char *sip_buffer)
     this->call_id = GetHeader(message, "Call-ID: ");
     this->contact = GetHeader(message, "Contact: ");
 
-    std::string expires = GetHeader(message, "Expires: ");
-    if (!expires.empty())
-        this->expires = std::stoi(expires);
+    std::string str_expires = GetHeader(message, "Expires: ");
+    if (!str_expires.empty())
+        this->expires = std::stoi(str_expires);
 
-    std::string content_length = GetHeader(message, "Content-Length: ");
-    if (!content_length.empty())
-        this->content_length = std::stoi(content_length);
+    std::string str_content_length = GetHeader(message, "Content-Length: ");
+    if (!str_content_length.empty())
+        this->content_length = std::stoi(str_content_length);
 
     this->body = GetBody(message);
 }
 
 
 /* Metodos privados */
+/*
+
+*/
 SIPType SIPMessage::GetMessageType(const std::string &message)
 {
     if (message.find("SIP") == 0)
@@ -110,18 +150,21 @@ SIPType SIPMessage::GetMessageType(const std::string &message)
         return REGISTER;
     if (message.find("INVITE") == 0)
         return INVITE;
-    if (message.find("BYE") == 0)
-        return BYE;
-    if (message.find("CANCEL") == 0)
-        return CANCEL;
     if (message.find("ACK") == 0)
         return ACK;
     if (message.find("MESSAGE") == 0)
         return MESSAGE;
+    if (message.find("CANCEL") == 0)
+        return CANCEL;
+    if (message.find("BYE") == 0)
+        return BYE;
     return UNKNOWN;
 }
 
 
+/*
+
+*/
 void    SIPMessage::SetResponse(const std::string &message)
 {
     size_t  start = message.find(' ');

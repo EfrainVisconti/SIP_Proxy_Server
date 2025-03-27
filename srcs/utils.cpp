@@ -1,5 +1,8 @@
 # include "../incs/MCXServer.hpp"
 
+/*
+
+*/
 bool IsEmptyBuffer(const char *buffer)
 {
     if (buffer == NULL)
@@ -17,6 +20,9 @@ bool IsEmptyBuffer(const char *buffer)
 }
 
 
+/*
+
+*/
 void    RemoveBrackets(char *aux, const char *uri)
 {
     size_t len = strlen(uri);
