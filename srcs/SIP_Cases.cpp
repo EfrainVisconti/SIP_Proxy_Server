@@ -26,6 +26,8 @@ void    SIP::ResponseCase()
     if (this->_msg.response == OK && (client->status == WAITING_200 || client->status == SENDING_ACK))
         SendResponse(200, client);
 
+    if (this->_msg.response == OK && client->status == SENDED_MESSAGE)
+        SendResponse(200, client);
 }
 
 
@@ -75,7 +77,12 @@ void    SIP::AckCase()
 
 void    SIP::MessageCase()
 {
-    std::cout << "SIP message" << std::endl;
+    client_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
+    if (current != NULL)
+        current->status = SENDED_MESSAGE;
+
+    CheckEmptyContact();
+    SendRequest("MESSAGE");
 }
 
 

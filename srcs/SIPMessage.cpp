@@ -130,6 +130,7 @@ void    SIPMessage::ParseSIP(const char *sip_buffer)
     this->cseq = GetHeader(message, "CSeq: ");
     this->call_id = GetHeader(message, "Call-ID: ");
     this->contact = GetHeader(message, "Contact: ");
+    this->content_type = GetHeader(message, "Content-Type: ");
 
     std::string str_expires = GetHeader(message, "Expires: ");
     if (!str_expires.empty())

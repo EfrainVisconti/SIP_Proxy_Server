@@ -44,6 +44,7 @@ class SIPMessage
         std::string	cseq;
         std::string	contact;
         int         expires;
+        std::string	content_type;
         int         content_length;
         std::string	body;
 

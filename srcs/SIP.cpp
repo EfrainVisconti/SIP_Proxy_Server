@@ -2,7 +2,7 @@
 
 /* Constructor y destructor */
 SIP::SIP(client_t *clients, short *client_count, const struct sockaddr_in &_addr,
-    const Socket &socket, const SIPMessage &msg) 
+    const Socket &socket, SIPMessage &msg) 
     : _clients(clients), _client_count(client_count), _addr(_addr),
     _socket(socket), _msg(msg) {}
 
@@ -89,6 +89,9 @@ void    SIP::SendRequest(const std::string &method)
     request << "Max-Forwards: 70\r\n";
     request << "Contact: " << this->_msg.contact << "\r\n"; // Siempre la URI del 'caller'
     request << "Expires: " << this->_msg.expires << "\r\n";
+
+    if (!this->_msg.content_type.empty())
+        request << "Content-Type: " << this->_msg.content_type << "\r\n";
     request << "Content-Length: " << this->_msg.content_length << "\r\n";
     request << "\r\n";
 
@@ -158,5 +161,25 @@ void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in
         std::cout << GREEN << "Sending request to: " << client_ip << ":" << ntohs(addr.sin_port);
         std::cout << " " << uri << std::endl;
         std::cout << message << RESET << std::endl;
+    }
+}
+
+
+void    SIP::CheckEmptyContact()
+{
+    if (this->_msg.contact.empty())
+    {
+        std::string port = std::to_string(ntohs(this->_addr.sin_port));
+
+        if (this->_msg.from.front() == '<' && this->_msg.from.back() == '>')
+        {
+            std::string aux = this->_msg.from.substr(0, this->_msg.from.size() - 1) + ":" + port + ">";
+            this->_msg.contact = aux;
+        }
+        else
+        {
+            std::string aux = "<" + this->_msg.from + ":" + port + ">";
+            this->_msg.contact = aux;
+        }
     }
 }

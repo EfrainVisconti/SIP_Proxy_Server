@@ -11,7 +11,7 @@ class SIP
 	public:
 		SIP(client_t *clients, short *client_count,
 			const struct sockaddr_in &client_addr, const Socket &socket,
-			const SIPMessage &msg);
+			SIPMessage &msg);
 		~SIP();
 		void	SIPManagement();
 
@@ -20,7 +20,7 @@ class SIP
 		short						*_client_count;
 		const struct sockaddr_in	_addr;
 		const Socket				&_socket;
-		const SIPMessage			&_msg;
+		SIPMessage					&_msg;
 
 		SIP();
 		/* Metodos privados principales: SIP Cases */
@@ -40,6 +40,7 @@ class SIP
 		std::string	GetSIPReasonPhrase(const short &code);
 		void	SendSIPMessage(const std::string &message, const struct sockaddr_in &addr,
 								const std::string &uri, bool is_response);
+		void	CheckEmptyContact();
 };
 
 #endif

@@ -10,7 +10,8 @@ enum ClientStatus
     RESPONDING_TO_INVITE, // Secuencia 100 Trying, 180 Ringing, 200 OK
     WAITING_200, // Esperando 200 OK tras enviar INVITE inicial
     SENDING_ACK, // Enviando ACK tras recibir 200 OK
-    CONNECTED // Llamada establecida
+    CONNECTED, // Llamada establecida
+    SENDED_MESSAGE
 };
 
 typedef struct client_s
