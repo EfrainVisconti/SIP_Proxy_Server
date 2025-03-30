@@ -4,29 +4,24 @@
 /*
 
 */
-static std::string  GetHeaderVia(const std::string &message, size_t &start) 
+static std::string GetHeaderVia(const std::string &header, const std::string &message, size_t &start)
 {
-    std::string ret;
-    bool is_first = true;
-
-    while (message.find("Via :", start) == start)
-    {
-        size_t end = message.find("\r\n", start);
-        if (end == std::string::npos)
-            return "";
-
-        if (is_first == false)
-            ret += "\r\n";
-        else
-            is_first = false;
-
-        ret += message.substr(start, end - start);
-        start = end + 2;
-    }
-
-    if (ret.empty())
+    if (start == std::string::npos)
         return "";
-
+    
+    size_t end = message.find("\r\n", start);
+    if (end == std::string::npos)
+        return "";
+    
+    std::string ret = message.substr(start, end - start);
+    start = message.find(header, end + 2);
+    if (start != std::string::npos)
+    {
+        end = message.find("\r\n", start);
+        if (end != std::string::npos)
+            ret += "\r\n" + message.substr(start, end - start);
+    }
+    
     return ret;
 }
 
@@ -40,8 +35,9 @@ static std::string  GetHeader(const std::string &message, const std::string &hea
     if (start == std::string::npos)
         return "";
 
-    if (header == "Via :")
-        return GetHeaderVia(message, start);
+    std::string aux = "Via: ";
+    if (header == aux)
+        return GetHeaderVia(header, message, start);
 
     start += header.length();
     size_t end = message.find("\r\n", start);

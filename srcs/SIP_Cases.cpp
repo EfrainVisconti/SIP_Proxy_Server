@@ -1,25 +1,36 @@
 # include "SIP.hpp"
 
-static std::string CleanViaHeader(const std::string &via_header)
+// static std::string CleanViaHeader(const std::string &via_header)
+// {
+//     std::string cleaned_via = via_header;
+
+//     size_t received_pos = cleaned_via.find(";received=");
+//     if (received_pos != std::string::npos)
+//     {
+//         size_t end_pos = cleaned_via.find(';', received_pos + 1);
+//         cleaned_via.erase(received_pos, (end_pos == std::string::npos ? std::string::npos : end_pos - received_pos));
+//     }
+
+//     size_t rport_pos = cleaned_via.find(";rport=");
+//     if (rport_pos != std::string::npos)
+//     {
+//         size_t end_pos = cleaned_via.find(';', rport_pos + 1);
+//         cleaned_via.erase(rport_pos, (end_pos == std::string::npos ? std::string::npos : end_pos - rport_pos));
+//     }
+
+//     return cleaned_via;
+// }
+
+static std::string GetLastViaHeader(const std::string &via_header)
 {
-    std::string cleaned_via = via_header;
+    size_t first_pos = via_header.find("\r\n");
+    if (first_pos == std::string::npos)
+        return via_header;
 
-    size_t received_pos = cleaned_via.find(";received=");
-    if (received_pos != std::string::npos)
-    {
-        size_t end_pos = cleaned_via.find(';', received_pos + 1);
-        cleaned_via.erase(received_pos, (end_pos == std::string::npos ? std::string::npos : end_pos - received_pos));
-    }
-
-    size_t rport_pos = cleaned_via.find(";rport=");
-    if (rport_pos != std::string::npos)
-    {
-        size_t end_pos = cleaned_via.find(';', rport_pos + 1);
-        cleaned_via.erase(rport_pos, (end_pos == std::string::npos ? std::string::npos : end_pos - rport_pos));
-    }
-
-    return cleaned_via;
+    return via_header.substr(first_pos + 2);
 }
+
+
 
 /* Metodos privados principales: SIP Cases */
 /*
@@ -39,7 +50,8 @@ void    SIP::ResponseCase()
 
     if (this->_msg.response == RINGING && client->status == WAITING_200)
     {
-        this->_msg.via = CleanViaHeader(this->_msg.via);
+        //this->_msg.via = CleanViaHeader(this->_msg.via);
+        this->_msg.via = GetLastViaHeader(this->_msg.via);
         SendResponse(180, client); // Ringing
         client->status = SENDING_ACK;
         return;
@@ -47,7 +59,8 @@ void    SIP::ResponseCase()
 
     if (this->_msg.response == OK && (client->status == WAITING_200 || client->status == SENDING_ACK || client->status == SENDED_A_MESSAGE))
     {
-        this->_msg.via = CleanViaHeader(this->_msg.via);
+        //this->_msg.via = CleanViaHeader(this->_msg.via);
+        this->_msg.via = GetLastViaHeader(this->_msg.via);
         SendResponse(200, client);
     }
 }

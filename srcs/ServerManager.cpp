@@ -175,12 +175,12 @@ void ServerManager::LaunchServer()
                 if (strcmp(client_ip, "192.168.1.94") == 0) // Linphone Ubuntu
                 {
                     inet_pton(AF_INET, "192.168.1.50", &destination.sin_addr);
-                    destination.sin_port = htons(7080);
+                    destination.sin_port = htons(7081);
                 }
                 else if (strcmp(client_ip, "192.168.1.50") == 0) // Linphone Windows
                 {
                     inet_pton(AF_INET, "192.168.1.94", &destination.sin_addr);
-                    destination.sin_port = htons(7080);
+                    destination.sin_port = htons(7081);
                 }
                 else
                 {
