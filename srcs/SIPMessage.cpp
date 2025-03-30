@@ -79,7 +79,7 @@ SIPMessage::SIPMessage ()
 {
     this->type = UNKNOWN;
     this->response = OTHER;
-    this->expires = 0;
+    this->expires = 3600;
     this->content_length = 0;
 }
 

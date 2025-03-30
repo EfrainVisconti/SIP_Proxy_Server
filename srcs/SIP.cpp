@@ -25,7 +25,7 @@ void    SIP::SIPManagement()
         case MESSAGE: MessageCase(); break;
         case CANCEL: CancelCase(); break;
         case BYE: ByeCase(); break;
-        default: SendResponse(400, NULL); break;
+        default: throw std::runtime_error("Unknown SIP message type.");
     }
 }
 
@@ -38,16 +38,22 @@ void    SIP::SendResponse(const short &code, client_t *client)
     response << "SIP/2.0 " << code << " " << phrase << "\r\n";
     response << "Via: " << this->_msg.via << "\r\n"; // Revisar
     response << "From: " << this->_msg.from_tag << "\r\n";
-    response << "To: " << this->_msg.to_tag << "\r\n"; //Revisar gestión tag
+    response << "To: " << this->_msg.to << "\r\n"; //Revisar gestión tag
     response << "Call-ID: " << this->_msg.call_id << "\r\n";
     response << "CSeq: " << this->_msg.cseq << "\r\n";
     // response << "Contact: " << this->_msg.contact << "\r\n";
-    response << "Expires: " << this->_msg.expires << "\r\n";
-    response << "Content-Length: " << this->_msg.content_length << "\r\n";
-    response << "\r\n";
+    
+    if (this->_msg.expires != 0)
+    	response << "Expires: " << this->_msg.expires << "\r\n";
 
-    if (!this->_msg.body.empty())
+    if (!this->_msg.body.empty() && code != 100)
+    {
+        response << "Content-Length: " << this->_msg.content_length << "\r\n";
+        response << "\r\n";
         response << this->_msg.body;
+    }
+    else
+        response << "\r\n";
 
     if (client != NULL)
         SendSIPMessage(response.str(), client->addr, client->uri, true);
@@ -62,6 +68,8 @@ void    SIP::SendRequest(const std::string &method)
     if (client == NULL)
     {
         SendResponse(404, NULL); // Not Found
+        std::cout << this->_msg.to << std::endl;
+        std::cout << this->_msg.from << std::endl;
         throw std::runtime_error("404 Receiver Not Found.");
     }
 
@@ -78,7 +86,7 @@ void    SIP::SendRequest(const std::string &method)
         char socket_ip[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(this->_socket.socket_address.sin_addr), socket_ip, INET_ADDRSTRLEN);
         request << "Via: SIP/2.0/UDP " << socket_ip << ":"
-                << ntohs(this->_socket.socket_address.sin_port) << ";branch=z9hG4bK-server\r\n";
+                  << ntohs(this->_socket.socket_address.sin_port) << ";branch=z9hG4bK-server\r\n";
     }
 
     request << "Via: " << this->_msg.via << "\r\n";
@@ -88,7 +96,8 @@ void    SIP::SendRequest(const std::string &method)
     request << "CSeq: " << this->_msg.cseq << "\r\n";
     request << "Max-Forwards: 70\r\n";
     request << "Contact: " << this->_msg.contact << "\r\n"; // Siempre la URI del 'caller'
-    request << "Expires: " << this->_msg.expires << "\r\n";
+    if (this->_msg.expires != 0)
+        request << "Expires: " << this->_msg.expires << "\r\n";
 
     if (!this->_msg.content_type.empty())
         request << "Content-Type: " << this->_msg.content_type << "\r\n";
@@ -96,7 +105,10 @@ void    SIP::SendRequest(const std::string &method)
     request << "\r\n";
 
     if (!this->_msg.body.empty())
+    {
         request << this->_msg.body;
+        request << "\r\n";
+    }
 
     SendSIPMessage(request.str(), client->addr, client->uri, false);
 }

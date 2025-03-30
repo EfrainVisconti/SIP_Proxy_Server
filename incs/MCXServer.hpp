@@ -29,12 +29,13 @@
 # define GREEN "\033[32m"
 
 // Defines auxiliares para el servidor
-# define HOST "192.168.1.94"
+# define SIP_HOST "192.168.1.94"
+# define RTP_HOST "192.168.1.94"
 # define SIP_PORT 5060
-# define RTP_PORT 4000
+# define RTP_PORT 7082
 # define TIMEOUT 1000 // 1 segundo
 # define MAX_UDP_SIZE 65535
-# define MAX_SIP_SIZE 1024
+# define MAX_SIP_SIZE 2000
 
 // Declaracion de funciones por archivo
 // Clients_utils.cpp

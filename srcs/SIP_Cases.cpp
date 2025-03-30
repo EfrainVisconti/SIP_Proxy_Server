@@ -1,5 +1,26 @@
 # include "SIP.hpp"
 
+static std::string CleanViaHeader(const std::string &via_header)
+{
+    std::string cleaned_via = via_header;
+
+    size_t received_pos = cleaned_via.find(";received=");
+    if (received_pos != std::string::npos)
+    {
+        size_t end_pos = cleaned_via.find(';', received_pos + 1);
+        cleaned_via.erase(received_pos, (end_pos == std::string::npos ? std::string::npos : end_pos - received_pos));
+    }
+
+    size_t rport_pos = cleaned_via.find(";rport=");
+    if (rport_pos != std::string::npos)
+    {
+        size_t end_pos = cleaned_via.find(';', rport_pos + 1);
+        cleaned_via.erase(rport_pos, (end_pos == std::string::npos ? std::string::npos : end_pos - rport_pos));
+    }
+
+    return cleaned_via;
+}
+
 /* Metodos privados principales: SIP Cases */
 /*
     100 Trying es ignorada por razones de simplicidad y eficiencia.
@@ -18,16 +39,17 @@ void    SIP::ResponseCase()
 
     if (this->_msg.response == RINGING && client->status == WAITING_200)
     {
+        this->_msg.via = CleanViaHeader(this->_msg.via);
         SendResponse(180, client); // Ringing
         client->status = SENDING_ACK;
         return;
     }
 
-    if (this->_msg.response == OK && (client->status == WAITING_200 || client->status == SENDING_ACK))
+    if (this->_msg.response == OK && (client->status == WAITING_200 || client->status == SENDING_ACK || client->status == SENDED_A_MESSAGE))
+    {
+        this->_msg.via = CleanViaHeader(this->_msg.via);
         SendResponse(200, client);
-
-    if (this->_msg.response == OK && client->status == SENDED_MESSAGE)
-        SendResponse(200, client);
+    }
 }
 
 
@@ -79,7 +101,7 @@ void    SIP::MessageCase()
 {
     client_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
     if (current != NULL)
-        current->status = SENDED_MESSAGE;
+        current->status = SENDED_A_MESSAGE;
 
     CheckEmptyContact();
     SendRequest("MESSAGE");
