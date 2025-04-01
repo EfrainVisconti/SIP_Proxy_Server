@@ -1,7 +1,7 @@
 # include "Socket.hpp"
 
 /* Constructor, destructor y forma canonica ortodoxa */
-Socket::Socket() : host(INADDR_ANY), port(0) {}
+Socket::Socket() : host(INADDR_ANY), port(5065) {}
 
 Socket::Socket(const char *host, const uint16_t &port) : host(inet_addr(host)), port(port)
 {

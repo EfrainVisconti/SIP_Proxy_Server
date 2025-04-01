@@ -29,8 +29,8 @@
 # define GREEN "\033[32m"
 
 // Defines auxiliares para el servidor
-# define SIP_HOST "192.168.1.94"
-# define RTP_HOST "192.168.1.94"
+# define SIP_HOST "172.20.10.3"
+# define RTP_HOST "172.20.10.3"
 # define SIP_PORT 5060
 # define RTP_PORT 7081
 # define TIMEOUT 10000 // 10 segundos

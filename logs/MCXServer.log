@@ -1,0 +1,801 @@
+[32mReceived SIP message
+REGISTER sip:172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.gCzGDDe1-;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=at4ZqYIWD
+To: sip:LinphoneWindows@172.20.10.3
+CSeq: 32 REGISTER
+Call-ID: cnRUtj7bxj
+Max-Forwards: 70
+Supported: replaces, outbound, gruu, path, record-aware
+Accept: application/sdp
+Accept: text/plain
+Accept: application/vnd.gsma.rcs-ft-http+xml
+Contact: <sip:LinphoneWindows@172.20.10.2:5062;transport=udp>;+sip.instance="<urn:uuid:9d3a9028-6754-4a3b-ae11-d72d12b58ea3>";+org.linphone.specs="lime"
+Expires: 3600
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.gCzGDDe1-;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=at4ZqYIWD
+To: sip:LinphoneWindows@172.20.10.3
+Call-ID: cnRUtj7bxj
+CSeq: 32 REGISTER
+Contact: <sip:LinphoneWindows@172.20.10.2:5062;transport=udp>;+sip.instance="<urn:uuid:9d3a9028-6754-4a3b-ae11-d72d12b58ea3>";+org.linphone.specs="lime"
+Expires: 3600
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+[32mReceived SIP message
+REGISTER sip:172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.fr5zIuHYp;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=bHX49wsKb
+To: sip:LinphoneUbuntu@172.20.10.3
+CSeq: 20 REGISTER
+Call-ID: vRHlk3WGoF
+Max-Forwards: 70
+Supported: replaces, outbound, gruu
+Accept: application/sdp
+Accept: text/plain
+Accept: application/vnd.gsma.rcs-ft-http+xml
+Contact: <sip:LinphoneUbuntu@172.20.10.3:5061;transport=udp>;message-expires=604800;+sip.instance="<urn:uuid:c1e77115-cb14-00e5-95a7-7e7291cf489f>"
+Expires: 3600
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+
+[0m
+[32mSending response to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.fr5zIuHYp;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=bHX49wsKb
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: vRHlk3WGoF
+CSeq: 20 REGISTER
+Contact: <sip:LinphoneUbuntu@172.20.10.3:5061;transport=udp>;message-expires=604800;+sip.instance="<urn:uuid:c1e77115-cb14-00e5-95a7-7e7291cf489f>"
+Expires: 3600
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+INVITE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: sip:LinphoneUbuntu@172.20.10.3
+CSeq: 20 INVITE
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+Supported: replaces, outbound, gruu, path, record-aware
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO, PRACK, UPDATE
+Content-Type: application/sdp
+Content-Length: 292
+Contact: <sip:LinphoneWindows@172.20.10.2:5062;transport=udp>;+sip.instance="<urn:uuid:9d3a9028-6754-4a3b-ae11-d72d12b58ea3>";+org.linphone.specs="lime"
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+v=0
+o=LinphoneWindows 3044 1711 IN IP4 172.20.10.2
+s=Talk
+c=IN IP4 172.20.10.2
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+a=record:off
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Contact: <sip:LinphoneWindows@172.20.10.2:5062;transport=udp>;+sip.instance="<urn:uuid:9d3a9028-6754-4a3b-ae11-d72d12b58ea3>";+org.linphone.specs="lime"
+Expires: 3600
+
+[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+INVITE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Type: application/sdp
+Content-Length: 292
+
+v=0
+o=LinphoneWindows 3044 1711 IN IP4 172.20.10.2
+s=Talk
+c=IN IP4 172.20.10.2
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+a=record:off
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+Supported: replaces, outbound, gruu
+
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+Supported: replaces, outbound, gruu
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO, PRACK, UPDATE
+Contact: <sip:LinphoneUbuntu@172.20.10.3:5061;transport=udp>;message-expires=604800;+sip.instance="<urn:uuid:c1e77115-cb14-00e5-95a7-7e7291cf489f>"
+Content-Type: application/sdp
+Content-Length: 277
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Length: 277
+Content-Type: application/sdp
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+Supported: replaces, outbound, gruu
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO, PRACK, UPDATE
+Contact: <sip:LinphoneUbuntu@172.20.10.3:5061;transport=udp>;message-expires=604800;+sip.instance="<urn:uuid:c1e77115-cb14-00e5-95a7-7e7291cf489f>"
+Content-Type: application/sdp
+Content-Length: 277
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Length: 277
+Content-Type: application/sdp
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+Supported: replaces, outbound, gruu
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO, PRACK, UPDATE
+Contact: <sip:LinphoneUbuntu@172.20.10.3:5061;transport=udp>;message-expires=604800;+sip.instance="<urn:uuid:c1e77115-cb14-00e5-95a7-7e7291cf489f>"
+Content-Type: application/sdp
+Content-Length: 277
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Length: 277
+Content-Type: application/sdp
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5060;branch=z9hG4bK-server
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+Supported: replaces, outbound, gruu
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, NOTIFY, MESSAGE, SUBSCRIBE, INFO, PRACK, UPDATE
+Contact: <sip:LinphoneUbuntu@172.20.10.3:5061;transport=udp>;message-expires=604800;+sip.instance="<urn:uuid:c1e77115-cb14-00e5-95a7-7e7291cf489f>"
+Content-Type: application/sdp
+Content-Length: 277
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.1GNcvMtTP;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 INVITE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Length: 277
+Content-Type: application/sdp
+
+v=0
+o=LinphoneUbuntu 3081 1819 IN IP4 172.20.10.3
+s=Talk
+c=IN IP4 172.20.10.3
+t=0 0
+a=rtcp-xr:rcvr-rtt=all:10000 stat-summary=loss,dup,jitt,TTL voip-metrics
+m=audio 7082 RTP/AVP 0 8 101
+a=rtpmap:101 telephone-event/8000
+a=rtcp-fb:* trr-int 1000
+a=rtcp-fb:* ccm tmmbr
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+ACK sip:172.20.10.3:5060 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;rport;branch=z9hG4bK.LV8a0mKH3
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+CSeq: 20 ACK
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+ACK sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;rport;branch=z9hG4bK.LV8a0mKH3
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 ACK
+Max-Forwards: 70
+Expires: 3600
+Content-Length: 0
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+ACK sip:172.20.10.3:5060 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.LV8a0mKH3;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+CSeq: 20 ACK
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+ACK sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.LV8a0mKH3;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 ACK
+Max-Forwards: 70
+Expires: 3600
+Content-Length: 0
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+ACK sip:172.20.10.3:5060 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.LV8a0mKH3;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+CSeq: 20 ACK
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+ACK sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.LV8a0mKH3;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 ACK
+Max-Forwards: 70
+Expires: 3600
+Content-Length: 0
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+ACK sip:172.20.10.3:5060 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.LV8a0mKH3;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+CSeq: 20 ACK
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+ACK sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.LV8a0mKH3;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+Call-ID: n~a3IP-xlK
+CSeq: 20 ACK
+Max-Forwards: 70
+Expires: 3600
+Content-Length: 0
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+MESSAGE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.-zdyzrw7-;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=2CKwo3~RD
+To: sip:LinphoneUbuntu@172.20.10.3
+CSeq: 20 MESSAGE
+Call-ID: isFaLABkOp
+Max-Forwards: 70
+Supported: replaces, outbound, gruu, path, record-aware
+Date: Tue, 01 Apr 2025 15:11:28 GMT
+Content-Type: message/imdn+xml
+Content-Length: 254
+Priority: non-urgent
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?><imdn xmlns="urn:ietf:params:xml:ns:imdn"><message-id>llHwYqYHhQ</message-id><datetime>2025-04-01T14:58:24Z</datetime><display-notification><status><displayed/></status></display-notification></imdn>[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+MESSAGE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.-zdyzrw7-;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=2CKwo3~RD
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: isFaLABkOp
+CSeq: 20 MESSAGE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Type: message/imdn+xml
+Content-Length: 254
+
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?><imdn xmlns="urn:ietf:params:xml:ns:imdn"><message-id>llHwYqYHhQ</message-id><datetime>2025-04-01T14:58:24Z</datetime><display-notification><status><displayed/></status></display-notification></imdn>[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.2:5062;received=172.20.10.3;branch=z9hG4bK.-zdyzrw7-;rport=5060
+From: <sip:LinphoneWindows@172.20.10.3>;tag=2CKwo3~RD
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=Q49N3t8
+Call-ID: isFaLABkOp
+CSeq: 20 MESSAGE
+
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;received=172.20.10.3;branch=z9hG4bK.-zdyzrw7-;rport=5060
+From: <sip:LinphoneWindows@172.20.10.3>;tag=2CKwo3~RD
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=Q49N3t8
+Call-ID: isFaLABkOp
+CSeq: 20 MESSAGE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+MESSAGE sip:LinphoneWindows@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.gZSeBlP7H;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=FSlYN5yTs
+To: sip:LinphoneWindows@172.20.10.3
+CSeq: 20 MESSAGE
+Call-ID: uN4KkFWJo5
+Max-Forwards: 70
+Supported: replaces, outbound, gruu
+Date: Tue, 01 Apr 2025 15:11:58 GMT
+Content-Type: text/plain
+Content-Length: 5
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+
+Hola![0m
+[32mSending request to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+MESSAGE sip:LinphoneWindows@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.gZSeBlP7H;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=FSlYN5yTs
+To: sip:LinphoneWindows@172.20.10.3
+Call-ID: uN4KkFWJo5
+CSeq: 20 MESSAGE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Type: text/plain
+Content-Length: 5
+
+Hola![0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.gZSeBlP7H;rport=5060
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=FSlYN5yTs
+To: <sip:LinphoneWindows@172.20.10.3>;tag=GZBD5Ha
+Call-ID: uN4KkFWJo5
+CSeq: 20 MESSAGE
+
+[0m
+[32mSending response to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.gZSeBlP7H;rport=5060
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=FSlYN5yTs
+To: <sip:LinphoneWindows@172.20.10.3>;tag=GZBD5Ha
+Call-ID: uN4KkFWJo5
+CSeq: 20 MESSAGE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+MESSAGE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.G6VY7jwiG;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: sip:LinphoneUbuntu@172.20.10.3
+CSeq: 20 MESSAGE
+Call-ID: c-uDq5F2EX
+Max-Forwards: 70
+Supported: replaces, outbound, gruu, path, record-aware
+Date: Tue, 01 Apr 2025 15:11:56 GMT
+Content-Encoding: deflate
+Content-Type: message/imdn+xml
+Content-Length: 182
+Priority: non-urgent
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+xúué±
+1%§èπ»HÿãùÖÇï"ÿ≥ ‚e#óúËﬂ≈∆vﬁX>‚ Ó8fJ‹K3k§@>•@|ÈÂ~∑R)rÒ¸ê{…Iä•äÅEU9˜rŸñ≥Ω˘—«l+∂úÌ˚"DÃŸ_PQp”∂›\WáuÍ@ˇ`æ`°ànﬁÃ;’¥™1;”Ycl◊Ag8Pm}*NÖŒtÚ•V;®}e ﬂÉv†?PˇëÙªœΩ[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+MESSAGE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.G6VY7jwiG;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: c-uDq5F2EX
+CSeq: 20 MESSAGE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Type: message/imdn+xml
+Content-Length: 182
+
+xúué±
+1%§èπ»HÿãùÖÇï"ÿ≥ ‚e#óúËﬂ≈∆vﬁX>‚ Ó8fJ‹K3k§@>•@|ÈÂ~∑R)rÒ¸ê{…Iä•äÅEU9˜rŸñ≥Ω˘—«l+∂úÌ˚"DÃŸ_PQp”∂›\WáuÍ@ˇ`æ`°ànﬁÃ;’¥™1;”Ycl◊Ag8Pm}*NÖŒtÚ•V;®}e ﬂÉv†?PˇëÙªœΩ[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+MESSAGE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.G6VY7jwiG;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: sip:LinphoneUbuntu@172.20.10.3
+CSeq: 20 MESSAGE
+Call-ID: c-uDq5F2EX
+Max-Forwards: 70
+Supported: replaces, outbound, gruu, path, record-aware
+Date: Tue, 01 Apr 2025 15:11:56 GMT
+Content-Encoding: deflate
+Content-Type: message/imdn+xml
+Content-Length: 182
+Priority: non-urgent
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+
+xúué±
+1%§èπ»HÿãùÖÇï"ÿ≥ ‚e#óúËﬂ≈∆vﬁX>‚ Ó8fJ‹K3k§@>•@|ÈÂ~∑R)rÒ¸ê{…Iä•äÅEU9˜rŸñ≥Ω˘—«l+∂úÌ˚"DÃŸ_PQp”∂›\WáuÍ@ˇ`æ`°ànﬁÃ;’¥™1;”Ycl◊Ag8Pm}*NÖŒtÚ•V;®}e ﬂÉv†?PˇëÙªœΩ[0m
+[32mSending request to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+MESSAGE sip:LinphoneUbuntu@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.2:5062;branch=z9hG4bK.G6VY7jwiG;rport
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: sip:LinphoneUbuntu@172.20.10.3
+Call-ID: c-uDq5F2EX
+CSeq: 20 MESSAGE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Type: message/imdn+xml
+Content-Length: 182
+
+xúué±
+1%§èπ»HÿãùÖÇï"ÿ≥ ‚e#óúËﬂ≈∆vﬁX>‚ Ó8fJ‹K3k§@>•@|ÈÂ~∑R)rÒ¸ê{…Iä•äÅEU9˜rŸñ≥Ω˘—«l+∂úÌ˚"DÃŸ_PQp”∂›\WáuÍ@ˇ`æ`°ànﬁÃ;’¥™1;”Ycl◊Ag8Pm}*NÖŒtÚ•V;®}e ﬂÉv†?PˇëÙªœΩ[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.2:5062;received=172.20.10.3;branch=z9hG4bK.G6VY7jwiG;rport=5060
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=7HfAyqA
+Call-ID: c-uDq5F2EX
+CSeq: 20 MESSAGE
+
+[0m
+[32mSending response to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.2:5062;received=172.20.10.3;branch=z9hG4bK.G6VY7jwiG;rport=5060
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=7HfAyqA
+Call-ID: c-uDq5F2EX
+CSeq: 20 MESSAGE
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+BYE sip:172.20.10.3:5060 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+CSeq: 111 BYE
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+
+[0m
+[32mSending response to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+Call-ID: n~a3IP-xlK
+CSeq: 111 BYE
+Expires: 3600
+
+[0m
+[32mSending request to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+BYE sip:LinphoneWindows@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+Call-ID: n~a3IP-xlK
+CSeq: 111 BYE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Length: 0
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport=5060
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+Call-ID: n~a3IP-xlK
+CSeq: 111 BYE
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+Supported: replaces, outbound, gruu, path, record-aware
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 405 Method not allowed
+Via: SIP/2.0/UDP 172.20.10.2:5062;received=172.20.10.3;branch=z9hG4bK.G6VY7jwiG;rport=5060
+From: <sip:LinphoneWindows@172.20.10.3>;tag=SaV71M7cp
+To: <sip:LinphoneUbuntu@172.20.10.3>;tag=7usEg
+Call-ID: c-uDq5F2EX
+CSeq: 20 MESSAGE
+Allow: INVITE, CANCEL, ACK, BYE, SUBSCRIBE, NOTIFY, MESSAGE, OPTIONS, INFO
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+BYE sip:172.20.10.3:5060 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+CSeq: 111 BYE
+Call-ID: n~a3IP-xlK
+Max-Forwards: 70
+User-Agent: Linphone Desktop/ (Ubuntu 22.04.5 LTS, Qt 5.15.3) LinphoneCore/4.4.21
+
+[0m
+[32mSending response to: 172.20.10.3:5061 <sip:LinphoneUbuntu@172.20.10.3>
+SIP/2.0 200 OK
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+Call-ID: n~a3IP-xlK
+CSeq: 111 BYE
+Expires: 3600
+
+[0m
+[32mSending request to: 172.20.10.2:5062 <sip:LinphoneWindows@172.20.10.3>
+BYE sip:LinphoneWindows@172.20.10.3 SIP/2.0
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+Call-ID: n~a3IP-xlK
+CSeq: 111 BYE
+Max-Forwards: 70
+Contact: <sip:172.20.10.3:5060>
+Expires: 3600
+Content-Length: 0
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[32mReceived SIP message
+SIP/2.0 200 Ok
+Via: SIP/2.0/UDP 172.20.10.3:5061;branch=z9hG4bK.JVFLf4jmn;rport=5060
+From: <sip:LinphoneUbuntu@172.20.10.3>;tag=OtBbDh1
+To: <sip:LinphoneWindows@172.20.10.3>;tag=mrocEye7X
+Call-ID: n~a3IP-xlK
+CSeq: 111 BYE
+User-Agent: Linphone-Desktop/5.2.6 (DESKTOP-JRQKPQU) windows/10 Qt/5.15.2 LinphoneSDK/5.3.72
+Supported: replaces, outbound, gruu, path, record-aware
+
+[0m
+Clientes SIP registrados:
+Cliente 1: <sip:LinphoneWindows@172.20.10.3>
+Cliente 2: <sip:LinphoneUbuntu@172.20.10.3>
+[31mSignal received (2). Stopping execution...[0m

@@ -55,6 +55,7 @@ void    SIP::SendResponse(const short &code, client_t *client)
     if (!this->_msg.body.empty() && code != 100)
     {
         response << "Content-Length: " << this->_msg.content_length << "\r\n";
+        response << "Content-Type: " << this->_msg.content_type << "\r\n";
         response << "\r\n";
         response << this->_msg.body;
     }
@@ -119,10 +120,7 @@ void    SIP::SendRequest(const std::string &method)
     request << "\r\n";
 
     if (!this->_msg.body.empty())
-    {
         request << this->_msg.body;
-        request << "\r\n";
-    }
 
     SendSIPMessage(request.str(), client->addr, client->uri, false);
 }
