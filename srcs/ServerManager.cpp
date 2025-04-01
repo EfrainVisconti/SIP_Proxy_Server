@@ -179,8 +179,8 @@ void ServerManager::LaunchServer()
                 }
                 else if (strcmp(client_ip, "192.168.1.50") == 0) // Linphone Windows
                 {
-                    inet_pton(AF_INET, "192.168.1.94", &destination.sin_addr);
-                    destination.sin_port = htons(7081);
+                    inet_pton(AF_INET, "192.168.1.50", &destination.sin_addr);
+                    destination.sin_port = htons(7083);
                 }
                 else
                 {

@@ -1,7 +1,7 @@
 # include "Socket.hpp"
 
 /* Constructor, destructor y forma canonica ortodoxa */
-Socket::Socket() : host(INADDR_ANY), port(0) {}
+Socket::Socket() : host(INADDR_ANY), port(5060) {}
 
 Socket::Socket(const char *host, const uint16_t &port) : host(inet_addr(host)), port(port)
 {
@@ -9,7 +9,11 @@ Socket::Socket(const char *host, const uint16_t &port) : host(inet_addr(host)), 
 }
 
 
-Socket::~Socket() {}
+Socket::~Socket()
+{
+    if (this->fd > 2)
+        close(this->fd);
+}
 
 
 Socket::Socket(const Socket &other)

@@ -36,20 +36,22 @@ void    SIP::SendResponse(const short &code, client_t *client)
     std::string phrase = GetSIPReasonPhrase(code);
     std::ostringstream  response;
     response << "SIP/2.0 " << code << " " << phrase << "\r\n";
-    response << this->_msg.via << "\r\n"; // Revisar
+    response << "Via: " << this->_msg.via << "\r\n";
     response << "From: " << this->_msg.from_tag << "\r\n";
-    response << "To: " << this->_msg.to_tag << "\r\n"; //Revisar gestión tag
+    response << "To: " << this->_msg.to_tag << "\r\n";
     response << "Call-ID: " << this->_msg.call_id << "\r\n";
     response << "CSeq: " << this->_msg.cseq << "\r\n";
 
-    if ((code == 200 || code == 180) && client != NULL) // De momento
+    if ((code == 180 || code == 200) && client != NULL)
     {
         char socket_ip[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(this->_socket.socket_address.sin_addr), socket_ip, INET_ADDRSTRLEN);
         response << "Contact: <sip:" << socket_ip << ":"
                   << ntohs(this->_socket.socket_address.sin_port) << ">\r\n";
     }
-    
+    else if (!this->_msg.contact.empty())
+        response << "Contact: " << this->_msg.contact << "\r\n";
+
     if (this->_msg.expires != 0)
     	response << "Expires: " << this->_msg.expires << "\r\n";
 
@@ -96,7 +98,7 @@ void    SIP::SendRequest(const std::string &method)
                   << ntohs(this->_socket.socket_address.sin_port) << ";branch=z9hG4bK-server\r\n";
     }
 
-    request << this->_msg.via << "\r\n";
+    request << "Via: " << this->_msg.via << "\r\n";
     request << "From: " << this->_msg.from_tag << "\r\n";
     request << "To: " << this->_msg.to_tag << "\r\n";
     request << "Call-ID: " << this->_msg.call_id << "\r\n";

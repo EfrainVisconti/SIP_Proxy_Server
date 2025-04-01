@@ -1,8 +1,11 @@
 # include "../incs/MCXServer.hpp"
 
-/*
-
-*/
+/**
+ * @brief Verifica si un buffer está vacío.
+ *
+ * @param buffer Cadena de caracteres a verificar.
+ * @return true si el buffer está vacío, false en caso contrario.
+ */
 bool IsEmptyBuffer(const char *buffer)
 {
     if (buffer == NULL)
@@ -20,9 +23,13 @@ bool IsEmptyBuffer(const char *buffer)
 }
 
 
-/*
-
-*/
+/**
+ * @brief Elimina los corchetes angulares de una URI SIP.
+ *
+ * @param aux Cadena auxiliar donde se almacenará la URI sin corchetes.
+ * @param uri Cadena de entrada que contiene la URI SIP.
+ * @return void
+ */
 void    RemoveBrackets(char *aux, const char *uri)
 {
     if (aux == NULL || uri == NULL)

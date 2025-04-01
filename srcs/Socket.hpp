@@ -3,6 +3,13 @@
 
 # include "../incs/MCXServer.hpp"
 
+/**
+ * @class Socket
+ * @brief Clase que representa un socket UDP.
+ * 
+ * Esta clase encapsula la funcionalidad de un socket UDP, incluyendo la creación,
+ * configuración y cierre del socket.
+ */
 class Socket
 {
 	public:

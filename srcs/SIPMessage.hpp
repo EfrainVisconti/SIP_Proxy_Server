@@ -30,6 +30,14 @@ enum SIPResponse
     OTHER
 };
 
+/**
+ * @class SIPMessage
+ * @brief Clase que representa un mensaje SIP.
+ * 
+ * Esta clase encapsula un mensaje SIP recibido de un cliente y proporciona métodos
+ * para analizar y gestionar el mensaje. Incluye información como el tipo de mensaje,
+ * la respuesta SIP (si aplica), los encabezados y el cuerpo.
+ */
 class SIPMessage
 {
     public:
@@ -55,6 +63,9 @@ class SIPMessage
     private:
         SIPType GetMessageType(const std::string &message);
         void    SetResponse(const std::string &message);
+        void    ViaCase(bool *found_via, const std::string &value);
+        void    FromCase(const std::string &value);
+        void    ToCase(const std::string &value);
 };
 
 #endif
