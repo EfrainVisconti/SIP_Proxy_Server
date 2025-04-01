@@ -41,6 +41,7 @@ SIPMessage::~SIPMessage() {}
 /**
  * @brief Analiza un mensaje SIP recibido y extrae la información relevante.
  *        Establece el tipo de mensaje, los encabezados y el cuerpo del mensaje.
+ *        Se divide en funciones auxiliares para manejar los encabezados específicos.
  *
  * @param sip_buffer Cadena de caracteres que representa el mensaje SIP recibido.
  * @throws std::runtime_error Si el mensaje no tiene un formato válido, faltan encabezados
@@ -78,18 +79,8 @@ void    SIPMessage::ParseSIP(const char *sip_buffer)
             FromCase(value);
         else if (header == "To")
             ToCase(value);
-        else if (header == "CSeq")
-            this->cseq = value;
-        else if (header == "Call-ID")
-            this->call_id = value;
-        else if (header == "Contact")
-            this->contact = value;
-        else if (header == "Content-Type")
-            this->content_type = value;
-        else if (header == "Expires")
-            this->expires = std::stoi(value);
-        else if (header == "Content-Length")
-            this->content_length = std::stoi(value);
+        else
+            GetHeaders(header, value);
     }
 
     if (this->content_length > 0)
@@ -170,6 +161,14 @@ void    SIPMessage::SetResponse(const std::string &line)
 }
 
 
+/**
+ * @brief Maneja el encabezado "Via" del mensaje SIP.
+ *
+ * @param found_via Puntero a un booleano que indica si se ha encontrado el encabezado "Via".
+ * @param value Cadena de texto que representa el valor del encabezado "Via".
+ * @throws std::runtime_error Si el encabezado "Via" está vacío.
+ * @return void
+ */
 void    SIPMessage::ViaCase(bool *found_via, const std::string &value)
 {
     if (*found_via)
@@ -184,6 +183,13 @@ void    SIPMessage::ViaCase(bool *found_via, const std::string &value)
 }
 
 
+/**
+ * @brief Maneja el encabezado "From" del mensaje SIP.
+ *
+ * @param value Cadena de texto que representa el valor del encabezado "From".
+ * @throws std::runtime_error Si el encabezado "From" está vacío.
+ * @return void
+ */
 void    SIPMessage::FromCase(const std::string &value)
 {
     this->from_tag = value;
@@ -199,6 +205,13 @@ void    SIPMessage::FromCase(const std::string &value)
 }
 
 
+/**
+ * @brief Maneja el encabezado "To" del mensaje SIP.
+ *
+ * @param value Cadena de texto que representa el valor del encabezado "To".
+ * @throws std::runtime_error Si el encabezado "To" está vacío.
+ * @return void
+ */
 void    SIPMessage::ToCase(const std::string &value)
 {
     this->to_tag = value;
@@ -211,4 +224,37 @@ void    SIPMessage::ToCase(const std::string &value)
         else
             this->to = this->to_tag;
     }
+}
+
+
+/**
+ * @brief Maneja los encabezados auxiliares del mensaje SIP.
+ *
+ * @param header Cadena de texto que representa el nombre del encabezado.
+ * @param value Cadena de texto que representa el valor del encabezado.
+ * @throws std::runtime_error Si el encabezado CSeq o Call-ID está vacío.
+ * @return void
+ */
+void    SIPMessage::GetHeaders(const std::string &header, const std::string &value)
+{
+    if (header == "CSeq")
+    {
+        this->cseq = value;
+        if (this->cseq.empty())
+            throw std::runtime_error("Missing SIP 'CSeq' header.");
+    }
+    else if (header == "Call-ID")
+    {
+        this->call_id = value;
+        if (this->call_id.empty())
+            throw std::runtime_error("Missing SIP 'Call-ID' header.");
+    }
+    else if (header == "Contact")
+        this->contact = value;
+    else if (header == "Content-Type")
+        this->content_type = value;
+    else if (header == "Expires")
+        this->expires = std::stoi(value);
+    else if (header == "Content-Length")
+        this->content_length = std::stoi(value);
 }

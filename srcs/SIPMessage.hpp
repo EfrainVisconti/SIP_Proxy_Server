@@ -66,6 +66,7 @@ class SIPMessage
         void    ViaCase(bool *found_via, const std::string &value);
         void    FromCase(const std::string &value);
         void    ToCase(const std::string &value);
+        void    GetHeaders(const std::string &header, const std::string &value);
 };
 
 #endif

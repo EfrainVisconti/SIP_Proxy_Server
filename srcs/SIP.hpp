@@ -6,6 +6,14 @@
 
 class SIPMessage;
 
+/**
+ * @class SIP
+ * @brief Clase que encapsula la gestión del protocolo SIP.
+ * 
+ * Esta clase se encarga de recibir y procesar mensajes SIP, así como de registrar
+ * clientes, enviar respuestas y solicitudes a los clientes. Incluye métodos para
+ * manejar diferentes tipos de mensajes, como REGISTER, INVITE, ACK, MESSAGE, CANCEL y BYE.
+ */
 class SIP
 {
 	public:

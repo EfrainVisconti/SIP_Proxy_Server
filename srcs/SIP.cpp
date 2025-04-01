@@ -11,9 +11,6 @@ SIP::~SIP() {}
 
 
 /* Metodo publico */
-/*
-
-*/
 void    SIP::SIPManagement()
 {
     switch (this->_msg.type)
@@ -103,7 +100,7 @@ void    SIP::SendRequest(const std::string &method)
     request << "To: " << this->_msg.to_tag << "\r\n";
     request << "Call-ID: " << this->_msg.call_id << "\r\n";
     request << "CSeq: " << this->_msg.cseq << "\r\n";
-    request << "Max-Forwards: 69\r\n"; // Revisar
+    request << "Max-Forwards: 70\r\n"; // Revisar
 
     if (method != "ACK")
     {
@@ -132,9 +129,6 @@ void    SIP::SendRequest(const std::string &method)
 
 
 /* Metodos privados auxiliares */
-/*
-
-*/
 std::string  SIP::GetSIPReasonPhrase(const short &code)
 {
     if (code == 200)
@@ -161,9 +155,6 @@ std::string  SIP::GetSIPReasonPhrase(const short &code)
 }
 
 
-/*
-
-*/
 void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in &addr,
                             const std::string &uri, bool is_response)
 {

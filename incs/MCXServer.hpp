@@ -33,7 +33,7 @@
 # define RTP_HOST "192.168.1.94"
 # define SIP_PORT 5060
 # define RTP_PORT 7081
-# define TIMEOUT 1000 // 1 segundo
+# define TIMEOUT 10000 // 10 segundos
 # define MAX_UDP_SIZE 65535
 # define MAX_SIP_SIZE 2000
 

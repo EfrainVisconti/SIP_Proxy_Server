@@ -15,6 +15,11 @@ int main()
         std::cerr << RED << e.what() << RESET << std::endl;
         return EXIT_FAILURE;
     }
+    catch (const std::exception &e)
+    {
+        std::cerr << RED << "An unexpected error occurred: " << e.what() << RESET << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }

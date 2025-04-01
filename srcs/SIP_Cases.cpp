@@ -19,7 +19,7 @@ static std::string GetLastViaHeader(const std::string &via_header)
 */
 void    SIP::ResponseCase()
 {
-    client_t *client = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count); // OJO, es from no to
+    client_t *client = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
     if (client == NULL)
     {
         SendResponse(404, NULL); // Not Found
@@ -97,13 +97,19 @@ void    SIP::MessageCase()
 }
 
 
-void    SIP::CancelCase()
-{
-    std::cout << "SIP cancel" << std::endl;
+void    SIP::ByeCase()
+{ 
+    client_t *current = FindClient(this->_clients, this->_msg.from.c_str(), *this->_client_count);
+    if (current != NULL)
+        current->status = AVAILABLE;
+
+    SendResponse(200, NULL); // OK
+    SendRequest("BYE");
 }
 
 
-void    SIP::ByeCase()
+void SIP::CancelCase()
 {
-    std::cout << "SIP bye" << std::endl;
+    // TO DO
+    std::cout << "SIP CANCEL received" << std::endl;
 }

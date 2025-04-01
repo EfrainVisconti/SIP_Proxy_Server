@@ -11,6 +11,7 @@ enum ClientStatus
     WAITING_200, // Esperando 200 OK tras enviar INVITE inicial
     SENDING_ACK, // Enviando ACK tras recibir 200 OK
     CONNECTED, // Llamada establecida
+    AVAILABLE, // Disponible para recibir llamadas
     SENDED_A_MESSAGE
 };
 
