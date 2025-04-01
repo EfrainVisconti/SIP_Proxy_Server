@@ -71,6 +71,26 @@ Este proyecto es un **servidor proxy SIP** escrito en **C++ con características
 - **SIP**: Clase encargada de gestionar los mensajes SIP, generar respuestas y solicitudes y enviarlas al cliente adecuado.
 - **Client** (estructura): Almacena información de los clientes registrados, incluyendo URI, dirección y estado.
 
+---
+
+### Optimización en Tiempo Real
+
+Para garantizar un rendimiento óptimo y una baja latencia, se han aplicado diversas estrategias de optimización:
+
+- Uso de UDP en lugar de TCP.
+
+- Uso de poll() para la multiplexación.
+
+- Sockets no bloqueantes: Se configuran los sockets para evitar bloqueos innecesarios en la recepción y envío de mensajes.
+
+- Evitar reserva de memoria dinámica: Se minimiza la asignación de memoria en tiempo de ejecución mediante estructuras predefinidas. Uso de buffers preestablecidos.
+
+- Optimización del procesamiento de mensajes: Se prioriza el análisis de cabeceras clave y se intentan minimizar operaciones redundantes.
+
+- Se evitan llamadas al sistema innecesarias.
+
+---
+
 ### Compilación
 
 El proyecto utiliza **Makefile** para la compilación con **C++**.
@@ -82,6 +102,7 @@ El proyecto utiliza **Makefile** para la compilación con **C++**.
 - Implementar el **parseo y gestión de SDP** para evitar errores por incompatibilidades de sesión.
 - Implementar **grupos para PTT (Push-to-Talk)**.
 - Implementar la recepción y reenvío de paquetes **RTP**, permitiendo que el servidor actúe como un **B2BUA (Back-to-Back User Agent)**.
+- Mejorar puntos de optimización en tiempo real.
 
 ---
 
