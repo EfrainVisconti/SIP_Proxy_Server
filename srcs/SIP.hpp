@@ -47,7 +47,7 @@ class SIP
 		/* Metodo privados auxiliares */
 		std::string	GetSIPReasonPhrase(const short &code);
 		void	SendSIPMessage(const std::string &message, const struct sockaddr_in &addr,
-								const std::string &uri, bool is_response);
+								const std::string &uri, const bool &is_response);
 		void	CheckEmptyContact();
 };
 

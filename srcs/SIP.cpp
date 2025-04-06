@@ -1,6 +1,15 @@
 # include "SIP.hpp"
 
 /* Constructor y destructor */
+/**
+ * @brief Constructor de la clase SIP.
+ *
+ * @param clients Puntero a la lista de clientes registrados.
+ * @param client_count Puntero al contador de clientes.
+ * @param _addr Dirección del cliente remitente.
+ * @param socket Socket configurado para comunicaciones SIP.
+ * @param msg Instancia del mensaje SIP recibido.
+ */
 SIP::SIP(client_t *clients, short *client_count, const struct sockaddr_in &_addr,
     const Socket &socket, SIPMessage &msg) 
     : _clients(clients), _client_count(client_count), _addr(_addr),
@@ -11,6 +20,13 @@ SIP::~SIP() {}
 
 
 /* Metodo publico */
+/**
+ * @brief Maneja el mensaje SIP recibido y determina la acción a realizar.
+ *        Llamando a la funcion auxiliar según el tipo de mensaje.
+ *
+ * @throws std::runtime_error si el tipo de mensaje no es reconocido.
+ * @return void
+ */
 void    SIP::SIPManagement()
 {
     switch (this->_msg.type)
@@ -28,6 +44,15 @@ void    SIP::SIPManagement()
 
 
 /* Metodos privados principales: SIP Send */
+/**
+ * @brief Crea y envía la respuesta SIP al cliente indicado.
+ *        Llama a la función SendSIPMessage() para enviar la respuesta.
+ *
+ * @param code Código de respuesta SIP (ej. 200, 404).
+ * @param client Puntero al cliente al que se enviará la respuesta.
+ * @note  client puede ser NULL si se desea enviar la respuesta al remitente original.
+ * @return void
+ */
 void    SIP::SendResponse(const short &code, client_t *client)
 {
     std::string phrase = GetSIPReasonPhrase(code);
@@ -69,14 +94,21 @@ void    SIP::SendResponse(const short &code, client_t *client)
 }
 
 
+/**
+ * @brief Crea y envia la solicitud SIP al cliente destinatario, o 404 si no se encuentra.
+ *        Llama a la funcion SendSIPMessage() o SendResponse() según corresponda.
+ *
+ * @param method Método SIP a enviar (ej. INVITE, ACK).
+ * @note  En el método INVITE, se añade cabecera "Via" con la dirección del servidor.
+ * @throws std::runtime_error si el destinatario no se encuentra en la lista de clientes.
+ * @return void
+ */
 void    SIP::SendRequest(const std::string &method)
 {
     client_t *client = FindClient(this->_clients, this->_msg.to.c_str(), *this->_client_count);
     if (client == NULL)
     {
         SendResponse(404, NULL); // Not Found
-        std::cout << this->_msg.to << std::endl;
-        std::cout << this->_msg.from << std::endl;
         throw std::runtime_error("404 Receiver Not Found.");
     }
 
@@ -87,7 +119,7 @@ void    SIP::SendRequest(const std::string &method)
     std::ostringstream  request;
     request << method << " " << no_brackets << " SIP/2.0\r\n";
     
-    if (method == "INVITE") // De momento
+    if (method == "INVITE")
     {
         client->status = RESPONDING_TO_INVITE;
         char socket_ip[INET_ADDRSTRLEN];
@@ -101,7 +133,7 @@ void    SIP::SendRequest(const std::string &method)
     request << "To: " << this->_msg.to_tag << "\r\n";
     request << "Call-ID: " << this->_msg.call_id << "\r\n";
     request << "CSeq: " << this->_msg.cseq << "\r\n";
-    request << "Max-Forwards: 70\r\n"; // Revisar
+    request << "Max-Forwards: 70\r\n";
 
     if (method != "ACK")
     {
@@ -127,6 +159,13 @@ void    SIP::SendRequest(const std::string &method)
 
 
 /* Metodos privados auxiliares */
+/**
+ * @brief Obtiene la "reason phrase" SIP correspondiente al código de respuesta.
+ *
+ * @param code Código de respuesta SIP (ej. 200, 404).
+ * @note si el codigo no es reconocido, devuelve "Unknown".
+ * @return std::string La "reason phrase" SIP.
+ */
 std::string  SIP::GetSIPReasonPhrase(const short &code)
 {
     if (code == 200)
@@ -152,9 +191,18 @@ std::string  SIP::GetSIPReasonPhrase(const short &code)
     return "Unknown";
 }
 
-
+/**
+ * @brief Envía un mensaje SIP al cliente indicado.
+ *
+ * @param message Mensaje SIP a enviar.
+ * @param addr Dirección del cliente destinatario.
+ * @param uri URI del cliente destinatario.
+ * @param is_response Indica si el mensaje es una respuesta (true) o una solicitud (false).
+ * @throws std::runtime_error si ocurre un error al enviar el mensaje.
+ * @return void
+ */
 void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in &addr,
-                            const std::string &uri, bool is_response)
+                            const std::string &uri, const bool &is_response)
 {
     if (is_response)
     {
@@ -172,7 +220,7 @@ void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in
     {
         if (sendto(this->_socket.fd, message.c_str(), message.length(), 0,
         (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1)
-            throw std::runtime_error("Error sending SIP response.");
+            throw std::runtime_error("Error sending SIP request.");
 
         char client_ip[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &(addr.sin_addr), client_ip, INET_ADDRSTRLEN);
@@ -182,7 +230,12 @@ void    SIP::SendSIPMessage(const std::string &message, const struct sockaddr_in
     }
 }
 
-
+/**
+ * @brief Verifica si el campo "Contact" del mensaje SIP está vacío.
+ *        Si está vacío, lo completa con la dirección y puerto del cliente.
+ *
+ * @return void
+ */
 void    SIP::CheckEmptyContact()
 {
     if (this->_msg.contact.empty())
