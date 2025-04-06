@@ -2,9 +2,9 @@
 #include <map>
 
 /* Variables estaticas */
-volatile sig_atomic_t sig = 0;
-client_t ServerManager::_clients[MAX_SIP_CLIENTS] = {};
-short ServerManager::_client_count = 0;
+volatile sig_atomic_t sig = 0; // Variable para manejar señales
+client_t ServerManager::_clients[MAX_SIP_CLIENTS] = {}; // Array de clientes
+short ServerManager::_client_count = 0; // Contador de clientes registrados
 
 
 /* Funciones auxiliares estaticas */
@@ -25,6 +25,12 @@ static void    SetSignals()
 
 
 /* Constructor y destructor */
+/**
+ * @brief Constructor de la clase ServerManager.
+ *
+ * @param sip_socket Socket configurado para comunicaciones SIP.
+ * @param rtp_socket Socket configurado para comunicaciones RTP.
+ */
 ServerManager::ServerManager(const Socket &sip_socket, const Socket &rtp_socket)
                             : _sip_socket(sip_socket), _rtp_socket(rtp_socket) {}
 
@@ -33,6 +39,14 @@ ServerManager::~ServerManager() {}
 
 
 /* Metodos publicos */
+/**
+ * @brief Inicia el servidor y gestiona la recepción de mensajes SIP y RTP.
+ *        El servidor se ejecuta en un bucle infinito hasta que se recibe una señal de terminación.
+ * 
+ * @note  Se utilizan instancias de Socket (UDP) para recibir mensajes SIP y RTP.
+ * @note  Se llama SetSignals() para la gestión de señales.
+ * @return void
+ */
 void    ServerManager::LaunchServer()
 {
     SetSignals();
@@ -102,6 +116,15 @@ void    ServerManager::LaunchServer()
 
 
 /* Metodos privados */
+/**
+ * @brief Maneja la recepción de mensajes SIP.
+ *        Procesa el mensaje SIP recibido, instancia la clase SIPMessage para parsear el mensaje,
+ *        y luego instancia la clase SIP para gestionar la comunicación.
+ *
+ * @param message Mensaje SIP recibido.
+ * @param client_addr Dirección del cliente que envió el mensaje.
+ * @return void
+ */
 void    ServerManager::HandleSIP(const char *message, const struct sockaddr_in &client_addr)
 {
     std::cout << GREEN << "Received SIP message\n" << message << RESET << std::endl;
